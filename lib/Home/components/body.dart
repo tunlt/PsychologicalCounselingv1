@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:psychological_counseling/Schedule/schedule_screen.dart';
+import 'package:psychological_counseling/controller/slot.dart';
 
 class Body extends StatefulWidget {
   const Body({super.key});
@@ -8,6 +10,8 @@ class Body extends StatefulWidget {
   @override
   State<Body> createState() => _BodyState();
 }
+
+final scheduleController = Get.find<SlotbookingController>();
 
 class _BodyState extends State<Body> {
   @override
@@ -136,6 +140,12 @@ class _BodyState extends State<Body> {
                             ),
                             child: IconButton(
                               onPressed: () {
+                                scheduleController.getListSlotBooking(
+                                    DateFormat('yyyy-mm-dd')
+                                        .format(DateTime.now()));
+                                print(DateFormat('yyyy-mm-dd')
+                                        .format(DateTime.now()) +
+                                    "haha");
                                 Get.to(ScheduleScreen());
                               },
                               icon:

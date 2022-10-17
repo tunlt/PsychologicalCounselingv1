@@ -17,25 +17,68 @@ class BlockSlot extends StatelessWidget {
         padding: const EdgeInsets.all(5.0),
         child: SizedBox(
           height: 50,
-          width: 350,
+          width: 450,
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: status == "active"
-                    ? Colors.blueGrey[200]
+                    ? Colors.blueGrey[100]
                     : Colors.blueGrey[500],
               ),
-              child: TextButton.icon(
-                onPressed: () {},
-                icon: Icon(Icons.access_time_rounded),
-                label: Center(
-                  child: Text(
-                    '${format.format(timeStart!)} - ${format.format(timeEnd!)}',
-                    style: TextStyle(fontSize: 25),
-                  ),
-                ),
+              // child: TextButton.icon(
+              //   onPressed: () {},
+              //   icon: Icon(Icons.access_time_rounded),
+              //   label: Center(
+              //     child: Text(
+              //       '${format.format(timeStart!)} - ${format.format(timeEnd!)}',
+              //       style: TextStyle(fontSize: 25),
+              //     ),
+              //   ),
+              // )
+              // ),
+              child: Container(
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      RichText(
+                        text: const TextSpan(children: [
+                          TextSpan(text: '  '),
+                          WidgetSpan(
+                              child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 2.0),
+                            child: Icon(
+                              Icons.access_time_rounded,
+                              color: Colors.blueAccent,
+                            ),
+                          ))
+                        ]),
+                      ),
+                      Center(
+                        child: Text(
+                          '       ' +
+                              '${format.format(timeStart!)} - ${format.format(timeEnd!)}',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.blueAccent,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: '${slotBooking.price}' + ' cua' + '   ',
+                              style: TextStyle(
+                                  fontSize: 18, color: Colors.red[300]),
+                            ),
+                            // WidgetSpan(child: Icon(Icons.attach_money_rounded)),
+                          ],
+                        ),
+                      ),
+                    ]),
               ),
             ),
           ),

@@ -3,13 +3,16 @@ import 'package:get/get.dart';
 import 'package:psychological_counseling/Appointment/appointment_screen.dart';
 import 'package:psychological_counseling/History/history_screen.dart';
 import 'package:psychological_counseling/Home/home_screen.dart';
+import 'package:psychological_counseling/Profile/conponents/body.dart';
 import 'package:psychological_counseling/Profile/profile_screen.dart';
+import 'package:psychological_counseling/controller/consultant.dart';
 
 class BottomBarPsycApp extends StatelessWidget {
   String selected = "";
   Color colorSelected = Colors.white;
   Color colorNormal = Color.fromRGBO(87, 79, 79, 1);
   BottomBarPsycApp({required this.selected});
+  final _consultant = Get.find<ConsultantController>();
   // final AppointmentController appointmentController =
   //     Get.find<AppointmentController>();
   // final ConsultantController spaController = Get.find<ConsultantController>();
@@ -123,7 +126,7 @@ class BottomBarPsycApp extends StatelessWidget {
             if (selected == "profile")
               GestureDetector(
                 onTap: () {
-                  Get.to(ProfileConsultantScreen());
+                  _consultant.getConsultantDetail(false);
                 },
                 child: Column(
                   mainAxisSize: MainAxisSize.min,

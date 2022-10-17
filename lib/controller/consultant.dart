@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:psychological_counseling/Profile/conponents/editprofile.dart';
 import 'package:psychological_counseling/Profile/editprofile_screen.dart';
+import 'package:psychological_counseling/Profile/profile_screen.dart';
 import 'package:psychological_counseling/model/consultant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,7 +16,8 @@ class ConsultantController extends GetxController {
   var isLoading = true.obs;
   String? urlImage;
   late List<Consultant> consultantdetail = <Consultant>[].obs;
-  Future<List<Consultant>> getConsultantDetail() async {
+  late List<Consultant> consultantprofile = <Consultant>[].obs;
+  Future<List<Consultant>> getConsultantDetail(bool check) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     int? id = prefs.getInt('id');
     String? token = prefs.getString('token');
@@ -41,13 +43,16 @@ class ConsultantController extends GetxController {
         if (consultant.data != null) {
           consultantdetail = consultant.data as List<Consultant>;
           print("o day co chay 2");
-          print(consultantdetail);
           update();
-          Get.to(EditProfileConsultantScreen());
+          if (check) {
+            Get.to(EditProfileConsultantScreen());
+          } else {
+            Get.to(ProfileConsultantScreen());
+          }
         }
       }
     } catch (error) {
-      print('loi');
+      print('loi consul');
     } finally {
       isLoading(false);
     }
@@ -105,6 +110,7 @@ class ConsultantController extends GetxController {
         "gender": gender,
         "phone": phone.text
       });
+      print("image ở dưới ");
       print(urlImage);
       final response = await http.put(
           Uri.parse(
@@ -126,7 +132,7 @@ class ConsultantController extends GetxController {
             fontSize: 16.0);
 
         update();
-        getConsultantDetail();
+        getConsultantDetail(true);
       } else {
         print("update consultant fail");
         Fluttertoast.showToast(

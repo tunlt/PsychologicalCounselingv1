@@ -22,8 +22,7 @@ class VerifyEmailController extends GetxController {
 
       print(body);
       final response = await http.put(
-          Uri.parse(
-              "https://www.psychologicalcounselingv1.somee.com/api/register/confirm"),
+          Uri.parse("https://psycteam.azurewebsites.net/api/register/confirm"),
           body: body,
           headers: {
             "Content-Type": "application/json",
@@ -42,7 +41,7 @@ class VerifyEmailController extends GetxController {
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
-            backgroundColor: Colors.white,
+            backgroundColor: Color.fromARGB(255, 21, 170, 28),
             textColor: Colors.black,
             fontSize: 16.0);
       } else {

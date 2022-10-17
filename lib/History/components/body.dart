@@ -29,7 +29,6 @@ class _Body extends State<Body> {
 
   void initState() {
     super.initState();
-    print(_focusedDay);
     appointmentController.getListHistoryAppointment(format.format(_focusedDay));
     print("có chạy hihi ");
   }
@@ -41,6 +40,7 @@ class _Body extends State<Body> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Lịch sử cuộc hẹn"),
+        backgroundColor: Colors.purple,
       ),
       body: SingleChildScrollView(
         child: Column(

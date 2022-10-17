@@ -39,13 +39,13 @@ class RegisterController extends GetxController {
       print(body);
       final response = await http.post(
           Uri.parse(
-              "https://www.psychologicalcounselingv1.somee.com/api/Users/createconsultantv2"),
+              "https://psycteam.azurewebsites.net/api/Users/createconsultantv2"),
           body: body,
           headers: {"content-type": "application/json"});
 
       final response2 = await http.put(
           Uri.parse(
-              "https://www.psychologicalcounselingv1.somee.com/api/Consultants/update"),
+              "https://psycteam.azurewebsites.net/api/Consultants/update"),
           body: body2,
           headers: {
             "Content-Type": "application/json",
@@ -65,7 +65,7 @@ class RegisterController extends GetxController {
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
-            backgroundColor: Colors.white,
+            backgroundColor: Color.fromARGB(255, 44, 194, 6),
             textColor: Colors.black,
             fontSize: 16.0);
       } else {

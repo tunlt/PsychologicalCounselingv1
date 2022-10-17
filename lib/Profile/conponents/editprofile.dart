@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:psychological_counseling/Profile/conponents/body.dart';
+import 'package:psychological_counseling/Profile/profile_screen.dart';
 import 'package:psychological_counseling/controller/consultant.dart';
 
 class EditProfileConsultant extends StatefulWidget {
@@ -33,7 +33,7 @@ class _EditProfileConsultantState extends State<EditProfileConsultant> {
 
   void initState() {
     super.initState();
-    _consultant.getConsultantDetail();
+    _consultant.getConsultantDetail(true);
     // ignore: unrelated_type_equality_checks
     // if (consultantController.isLoading == true) {
     _fullname.text = '${_consultant.consultantdetail[0].fullName}';
@@ -85,7 +85,7 @@ class _EditProfileConsultantState extends State<EditProfileConsultant> {
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Get.to(ProfileConsultant());
+              Get.to(ProfileConsultantScreen());
             }),
         title: Text("Thông tin của tôi"),
         backgroundColor: Colors.purple[200],
@@ -227,8 +227,8 @@ class _EditProfileConsultantState extends State<EditProfileConsultant> {
                   SizedBox(width: 12),
                   Expanded(
                       child: TextField(
+                    keyboardType: TextInputType.number,
                     controller: _phone,
-                    readOnly: true,
                   )),
                 ],
               ),
@@ -268,6 +268,7 @@ class _EditProfileConsultantState extends State<EditProfileConsultant> {
                         true, //set it true, so that user will not able to edit text
                     onTap: () async {
                       DateTime? pickedDate = await showDatePicker(
+                          helpText: "Ngày sinh của bạn",
                           context: context,
                           initialDate: dob,
                           firstDate: DateTime.now().subtract(const Duration(

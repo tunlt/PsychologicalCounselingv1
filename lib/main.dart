@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:psychological_counseling/History/history_screen.dart';
 import 'package:psychological_counseling/Login/login_screen.dart';
+import 'package:psychological_counseling/Notification/notification_screen.dart';
 import 'package:psychological_counseling/Profile/editprofile_screen.dart';
 import 'package:psychological_counseling/Profile/profile_screen.dart';
 import 'package:psychological_counseling/Register/register_screen.dart';
@@ -59,6 +60,10 @@ void main() async {
         GetPage(
             name: '/login_screen',
             page: () => LoginScreen(),
+            binding: Binding()),
+        GetPage(
+            name: '/notification_screen',
+            page: () => NotificationScreen(),
             binding: Binding()),
       ],
     ),

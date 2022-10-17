@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:psychological_counseling/Notification/notification_screen.dart';
 import 'package:psychological_counseling/Profile/conponents/editprofile.dart';
 import 'package:psychological_counseling/controller/consultant.dart';
 import 'package:psychological_counseling/controller/login.dart';
@@ -23,6 +25,7 @@ class _ProfileConsultantState extends State<ProfileConsultant> {
       appBar: AppBar(
         title: Text("Tài khoản của tôi"),
         backgroundColor: Colors.purple[200],
+        leading: Icon(null),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -79,7 +82,7 @@ class _ProfileConsultantState extends State<ProfileConsultant> {
                   backgroundColor: Color(0xFFF5F6F9),
                 ),
                 onPressed: () {
-                  consultantController.getConsultantDetail();
+                  consultantController.getConsultantDetail(true);
                 },
                 child: Row(
                   children: [
@@ -101,7 +104,9 @@ class _ProfileConsultantState extends State<ProfileConsultant> {
                       borderRadius: BorderRadius.circular(15)),
                   backgroundColor: Color(0xFFF5F6F9),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(NotificationScreen());
+                },
                 child: Row(
                   children: [
                     Icon(Icons.notifications),

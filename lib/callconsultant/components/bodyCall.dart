@@ -1,19 +1,26 @@
-import 'dart:ffi';
-
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as rtc_local_view;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:psychological_counseling/controller/slot.dart';
 import 'package:psychological_counseling/utils/settings.dart';
 
 class BodyCall extends StatefulWidget {
   final String? chanelName;
   final ClientRole? role;
+  // final String? token;
+  final String? token;
+  final DateTime? timeEnd;
+  final int? id;
 
   const BodyCall({
     Key? key,
     this.chanelName,
     this.role,
+    this.token,
+    this.timeEnd,
+    this.id,
   }) : super(key: key);
 
   @override
@@ -27,6 +34,8 @@ class _BodyCallState extends State<BodyCall> {
   bool viewPanel = false;
   bool banChat = false;
   late RtcEngine _engine;
+
+  final slotbookingcontroller = Get.find<SlotbookingController>();
   @override
   void initState() {
     super.initState();
@@ -59,7 +68,7 @@ class _BodyCallState extends State<BodyCall> {
     VideoEncoderConfiguration configuration = VideoEncoderConfiguration();
     configuration.dimensions = VideoDimensions(width: 1928, height: 1080);
     await _engine.setVideoEncoderConfiguration(configuration);
-    await _engine.joinChannel(token, widget.chanelName!, null, 0);
+    await _engine.joinChannel(widget.token!, widget.chanelName!, null, 0);
   }
 
   void _addAgoraEventHandlers() {
@@ -101,8 +110,9 @@ class _BodyCallState extends State<BodyCall> {
   }
 
   Widget _viewRows() {
+    if (widget.role == ClientRole.Audience) return const SizedBox();
     final List<StatefulWidget> list = [];
-    if (widget.role == ClientRole.Broadcaster) {
+    if (widget.role == ClientRole.Audience) {
       list.add(const rtc_local_view.SurfaceView());
     }
     for (var uid in _user) {
@@ -120,7 +130,32 @@ class _BodyCallState extends State<BodyCall> {
         ),
       ),
     );
+    // if (widget.role == ClientRole.Broadcaster) {}
+    // return;
   }
+
+  List<Widget> _getRenderView() {
+    final List<StatefulWidget> list = [];
+    list.add(rtc_local_view.SurfaceView());
+    for (var uid in _user) {
+      list.add(rtc_remote_view.SurfaceView(
+        uid: uid,
+        channelId: widget.chanelName!,
+      ));
+    }
+    return list;
+  }
+
+  // Widget _viewRows() {
+  //   // final wrappedViews = views.map<Widget>(_videoView).toList();
+  //   final views = _getRenderView();
+  //   switch (views.length) {
+  //     case 1:
+  //       return Column(children: [rtc_local_view.SurfaceView()]);
+  //     default:
+  //   }
+  //   return Container();
+  // }
 
   Widget _toolbar() {
     if (widget.role == ClientRole.Audience) return const SizedBox();
@@ -145,7 +180,52 @@ class _BodyCallState extends State<BodyCall> {
             padding: const EdgeInsets.all(12),
           ),
           RawMaterialButton(
-            onPressed: () => Navigator.pop(context),
+            // onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                        title: const Text(
+                          'Thông báo',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        content: Text(
+                            'Bạn có chắc chắn xác nhận cuộc gọi kết thúc? Lưu ý kết thúc cuộc gọi sẽ kết toán và không thể vào lại.'),
+                        actions: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(right: 1),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ElevatedButton(
+                                      onPressed: () {
+                                        _engine.leaveChannel();
+                                        slotbookingcontroller
+                                            .confirmVideocall(widget.id);
+                                      },
+                                      child: const Text(
+                                        'Đồng ý',
+                                        style: TextStyle(color: Colors.white),
+                                      )),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 1),
+                                child: ElevatedButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, 'Hủy'),
+                                    child: const Text(
+                                      'Hủy',
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ));
+            },
             child: const Icon(
               Icons.call_end,
               color: Colors.white,
@@ -170,17 +250,51 @@ class _BodyCallState extends State<BodyCall> {
             fillColor: Colors.white,
             padding: const EdgeInsets.all(12),
           ),
-          RawMaterialButton(
-            onPressed: () {},
-            child: Icon(
-              banChat ? Icons.message_sharp : Icons.messenger,
-              color: banChat ? Colors.blueAccent : Colors.white,
-            ),
-          )
+          // RawMaterialButton(
+          //   onPressed: () {},
+          //   child: Icon(
+          //     banChat ? Icons.message_sharp : Icons.messenger,
+          //     color: banChat ? Colors.blueAccent : Colors.white,
+          //   ),
+          // )
         ],
       ),
     );
   }
+
+  // Widget _info() {
+  //   return Container(
+  //     alignment: Alignment.topLeft,
+  //     padding: const EdgeInsets.symmetric(vertical: 48),
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.end,
+  //       children: <Widget>[
+  //         RawMaterialButton(
+  //           onPressed: () {
+  //             setState(() {
+  //               IconButton(
+  //                 onPressed: () {
+  //                   setState(() {
+  //                     viewPanel = !viewPanel;
+  //                   });
+  //                 },
+  //                 icon: const Icon(Icons.info_outline),
+  //               );
+  //             });
+  //           },
+  //         ),
+
+  //         // RawMaterialButton(
+  //         //   onPressed: () {},
+  //         //   child: Icon(
+  //         //     banChat ? Icons.message_sharp : Icons.messenger,
+  //         //     color: banChat ? Colors.blueAccent : Colors.white,
+  //         //   ),
+  //         // )
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _panel() {
     return Visibility(
@@ -243,6 +357,7 @@ class _BodyCallState extends State<BodyCall> {
       body: Center(
         child: Stack(
           children: <Widget>[
+            // _info(),
             _viewRows(),
             _panel(),
             _toolbar(),
