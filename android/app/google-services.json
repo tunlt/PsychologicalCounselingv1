@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1021397689910",
+    "project_id": "psychologicalcounseling-28efa",
+    "storage_bucket": "psychologicalcounseling-28efa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1021397689910:android:b2eb3eef6066f0d379da97",
+        "android_client_info": {
+          "package_name": "com.example.psychological_counseling"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1021397689910-lsk8remmpcc95k77o8k60o9sbs1ds82k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.psychological_counseling",
+            "certificate_hash": "1e6943cf409c206e066ef39de8a10226b30c70c0"
+          }
+        },
+        {
+          "client_id": "1021397689910-9olotql35p9d53bct319ttn20mimmqjs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQkNxyfHtm2tBZ3E8WnLBCsPG5OxDJCOA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1021397689910-9olotql35p9d53bct319ttn20mimmqjs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

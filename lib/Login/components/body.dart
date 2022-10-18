@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,6 +23,9 @@ class _BodyState extends State<Body> {
   void initState() {
     super.initState();
     password = TextEditingController();
+    FirebaseMessaging.instance
+        .getToken()
+        .then((value) => loginController.setTokenDevice(value!));
   }
 
   @override

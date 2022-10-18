@@ -110,9 +110,9 @@ class _BodyCallState extends State<BodyCall> {
   }
 
   Widget _viewRows() {
-    if (widget.role == ClientRole.Audience) return const SizedBox();
+    // if (widget.role == ClientRole.Broadcaster) return const SizedBox();
     final List<StatefulWidget> list = [];
-    if (widget.role == ClientRole.Audience) {
+    if (widget.role == ClientRole.Broadcaster) {
       list.add(const rtc_local_view.SurfaceView());
     }
     for (var uid in _user) {

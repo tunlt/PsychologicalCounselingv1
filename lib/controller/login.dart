@@ -14,6 +14,7 @@ class LoginController extends GetxController {
   var isLoading = true.obs;
   late List<Consultant> consultantdetail = <Consultant>[].obs;
   String? token;
+  String tokenDevice = "";
 
   Future<void> LoginConsultant(
       TextEditingController usernameController, passwordController) async {
@@ -22,8 +23,9 @@ class LoginController extends GetxController {
       final String body = json.encode({
         'userName': usernameController.text,
         'passWord': passwordController.text,
+        'fcmToken': tokenDevice,
       });
-
+      print(tokenDevice);
       print(body);
       final response = await http.post(
           Uri.parse(
@@ -58,6 +60,11 @@ class LoginController extends GetxController {
     } catch (error) {
       print(error);
     }
+  }
+
+  void setTokenDevice(String token) {
+    tokenDevice = token;
+    update();
   }
 
   Future<void> logout() async {

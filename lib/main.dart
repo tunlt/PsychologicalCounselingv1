@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:psychological_counseling/History/history_screen.dart';
 import 'package:psychological_counseling/Login/login_screen.dart';
@@ -15,8 +17,24 @@ import 'package:psychological_counseling/callconsultant/components/bodyCall.dart
 import 'Home/home_screen.dart';
 import 'package:flutter/material.dart';
 
+Future<void> _firebaseMessagingBackgroundHandler(message) async {
+  await Firebase.initializeApp();
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  print('Handling a background message ${message.messageId}');
+}
+
+// String? mtoken;
+// void getToken() async {
+//   await FirebaseMessaging.instance.getToken().then((token) {
+//     saveToken(token!);
+//   });
+// }
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   Binding().dependencies();
   runApp(
     GetMaterialApp(
