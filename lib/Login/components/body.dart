@@ -129,16 +129,18 @@ class _BodyState extends State<Body> {
 }
 
 Widget _signUpLabel(String label, Color textColor) {
-  return Text(
-    label,
-    style: GoogleFonts.josefinSans(
-      textStyle: TextStyle(
-        color: textColor,
-        fontWeight: FontWeight.w800,
-        fontSize: 18,
-      ),
-    ),
-  );
+  return TextButton(
+      onPressed: () {},
+      child: Text(
+        "Đăng kí",
+        style: GoogleFonts.josefinSans(
+          textStyle: TextStyle(
+            color: textColor,
+            fontWeight: FontWeight.w800,
+            fontSize: 18,
+          ),
+        ),
+      ));
 }
 
 Widget _loginBtn() {

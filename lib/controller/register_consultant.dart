@@ -16,7 +16,8 @@ class RegisterController extends GetxController {
       addressController,
       genderController,
       dobController,
-      phoneController) async {
+      phoneController,
+      String? avatarURL) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String email = emailController.text;
     prefs.setString('emailConsultant', email);
@@ -35,6 +36,7 @@ class RegisterController extends GetxController {
         'dob': dobController.text,
         'gender': genderController.text,
         'phone': phoneController.text,
+        'imageUrl': avatarURL,
       });
       print(body);
       final response = await http.post(

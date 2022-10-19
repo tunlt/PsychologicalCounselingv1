@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as rtc_local_view;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:psychological_counseling/controller/slot.dart';
 import 'package:psychological_counseling/utils/settings.dart';
 
@@ -35,11 +38,37 @@ class _BodyCallState extends State<BodyCall> {
   bool banChat = false;
   late RtcEngine _engine;
 
+  bool isMore = false;
+  int minute = 0;
+
+  // void timerStart() {
+  //   _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+  //     setState(() {
+  //       DateTime.now().second;
+  //     });
+  //   });
+  // }
+
   final slotbookingcontroller = Get.find<SlotbookingController>();
   @override
   void initState() {
     super.initState();
     initialize();
+    DateTime? timeNoti = widget.timeEnd!.subtract(Duration(minutes: 5));
+    DateTime? timefinish = widget.timeEnd!;
+    DateTime? timestart =
+        DateFormat("yyyy-MM-dd HH:mm").parse('${DateTime.now()}');
+    print(timestart);
+    print(timeNoti);
+    print(timefinish);
+    // DateTime? timestart = DateTime.now();
+    minute = (timeNoti.hour * 60 + timeNoti.minute) -
+        (timestart.hour * 60 + timestart.minute);
+    final timer = Timer(Duration(minutes: minute), () {
+      setState(() {
+        _showDialog();
+      });
+    });
   }
 
   @override
@@ -365,5 +394,71 @@ class _BodyCallState extends State<BodyCall> {
         ),
       ),
     );
+  }
+
+  Future _showDialog() {
+    DateTime? timebegin =
+        DateFormat("yyyy-MM-dd HH:mm").parse('${DateTime.now()}');
+    DateTime? finish = widget.timeEnd!;
+    int? minute;
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+              title: const Text(
+                'Thông báo',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              content: Text('Còn 5 phút trước khi cuộc họp kết thúc '),
+              actions: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(right: 1),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                            onPressed: () {
+                              timerStart(minute = finish.hour +
+                                  finish.minute -
+                                  timebegin.hour -
+                                  timebegin.minute);
+                              // timerStart(1);
+                              Navigator.pop(context, 'Đồng ý');
+                            },
+                            child: const Text(
+                              'Đồng ý',
+                              style: TextStyle(color: Colors.white),
+                            )),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 1),
+                      child: ElevatedButton(
+                          onPressed: () {
+                            timerStart(finish.hour +
+                                finish.minute -
+                                timebegin.hour -
+                                timebegin.minute +
+                                5);
+                            // timerStart(1);
+                            Navigator.pop(context, 'Gia hạn thêm 5 phút');
+                          },
+                          child: const Text(
+                            'Gia hạn thêm 5 phút',
+                            style: TextStyle(color: Colors.white),
+                          )),
+                    ),
+                  ],
+                ),
+              ],
+            ));
+  }
+
+  void timerStart(int minute) {
+    final timer = Timer(Duration(minutes: minute), () {
+      _engine.leaveChannel();
+      slotbookingcontroller.confirmVideocall(widget.id);
+    });
   }
 }

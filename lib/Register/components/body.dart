@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:psychological_counseling/Login/login_screen.dart';
 import 'package:psychological_counseling/common/themhelper.dart';
 import 'package:psychological_counseling/controller/register_consultant.dart';
+import 'package:psychological_counseling/utils/settings.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -23,8 +24,10 @@ class _BodyState extends State<Body> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController dobController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-  TextEditingController? genderController = TextEditingController();
+  String? avatarURL = avatarfemale;
+  String? gender;
 
   // var genderController = "male";
 
@@ -132,32 +135,77 @@ class _BodyState extends State<Body> {
                 ]),
               ),
               Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      width: 200,
+                      child: RadioListTile<String>(
+                        title: const Text('Nam'),
+                        value: "Male",
+                        groupValue: gender,
+                        onChanged: (String? value) {
+                          setState(() {
+                            gender = value!;
+                            print(gender);
+                          });
+                        },
+                      ),
+                    ),
+
+                    Container(
+                      width: 200,
+                      child: RadioListTile<String>(
+                        title: const Text('Nữ'),
+                        value: "Female",
+                        groupValue: gender,
+                        onChanged: (String? value) {
+                          setState(() {
+                            gender = value!;
+                            print(gender);
+                          });
+                        },
+                      ),
+                    ),
+                    // Icon(
+                    //   Icons.calendar_month_sharp,
+                    //   color: Colors.purple,
+                    // ),
+                  ],
+                ),
+              ),
+              Padding(
                 padding: const EdgeInsets.fromLTRB(130, 0, 0, 0),
                 child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.pink[800]),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                        side: BorderSide(
-                          color: Colors.white,
-                          width: 0.5,
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.pink[800]),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: BorderSide(
+                            color: Colors.white,
+                            width: 0.5,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  child: Text('Tạo tài khoản'),
-                  onPressed: () => _controller.addRegister(
-                      emailController,
-                      fullnameController,
-                      usernameController,
-                      passwordController,
-                      addressController,
-                      genderController,
-                      dobController,
-                      phoneController),
-                ),
+                    child: Text('Tạo tài khoản'),
+                    onPressed: () {
+                      if (gender == 'Male') {
+                        avatarURL = avatarmale;
+                      }
+                      _controller.addRegister(
+                          emailController,
+                          fullnameController,
+                          usernameController,
+                          passwordController,
+                          addressController,
+                          genderController,
+                          dobController,
+                          phoneController,
+                          avatarURL);
+                    }),
               ),
               Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
