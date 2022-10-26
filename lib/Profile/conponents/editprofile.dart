@@ -105,7 +105,7 @@ class _EditProfileConsultantState extends State<EditProfileConsultant> {
                     CircleAvatar(
                         backgroundImage: _imageFile == null
                             ? NetworkImage(
-                                "${_consultant.consultantdetail[0].avartarUrl}")
+                                "${_consultant.consultantdetail[0].imageUrl}")
                             : FileImage(_imageFile!) as ImageProvider),
                     Positioned(
                       right: -16,

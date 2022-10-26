@@ -52,7 +52,7 @@ class _BodyState extends State<Body> {
                   decoration: const BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage(
-                            "assets/zodiac/logo.png",
+                            "assets/logo/logo.png",
                           ),
                           fit: BoxFit.contain)),
                   height: MediaQuery.of(context).size.height * .15,
@@ -139,7 +139,7 @@ class _BodyState extends State<Body> {
                 child: Row(
                   children: <Widget>[
                     Container(
-                      width: 200,
+                      width: 175,
                       child: RadioListTile<String>(
                         title: const Text('Nam'),
                         value: "Male",
@@ -154,7 +154,7 @@ class _BodyState extends State<Body> {
                     ),
 
                     Container(
-                      width: 200,
+                      width: 175,
                       child: RadioListTile<String>(
                         title: const Text('Nữ'),
                         value: "Female",
@@ -201,7 +201,7 @@ class _BodyState extends State<Body> {
                           usernameController,
                           passwordController,
                           addressController,
-                          genderController,
+                          gender!,
                           dobController,
                           phoneController,
                           avatarURL);

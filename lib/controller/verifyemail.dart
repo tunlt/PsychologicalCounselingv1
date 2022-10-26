@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:psychological_counseling/Home/home_screen.dart';
+import 'package:psychological_counseling/Login/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class VerifyEmailController extends GetxController {
@@ -35,7 +36,7 @@ class VerifyEmailController extends GetxController {
       print("api 2 len");
       if (response.statusCode == 200) {
         print("regis success");
-        Get.to(HomeScreenConsultant());
+        Get.to(LoginScreen());
         Fluttertoast.showToast(
             msg: "Xác thực thành công",
             toastLength: Toast.LENGTH_SHORT,

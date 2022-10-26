@@ -6,6 +6,7 @@ import 'package:psychological_counseling/Home/home_screen.dart';
 import 'package:psychological_counseling/Profile/conponents/body.dart';
 import 'package:psychological_counseling/Profile/profile_screen.dart';
 import 'package:psychological_counseling/controller/consultant.dart';
+import 'package:psychological_counseling/controller/notification.dart';
 
 class BottomBarPsycApp extends StatelessWidget {
   String selected = "";
@@ -13,6 +14,7 @@ class BottomBarPsycApp extends StatelessWidget {
   Color colorNormal = Color.fromRGBO(87, 79, 79, 1);
   BottomBarPsycApp({required this.selected});
   final _consultant = Get.find<ConsultantController>();
+  final _countNotify = Get.find<NotificationController>();
   // final AppointmentController appointmentController =
   //     Get.find<AppointmentController>();
   // final ConsultantController spaController = Get.find<ConsultantController>();
@@ -127,6 +129,7 @@ class BottomBarPsycApp extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   _consultant.getConsultantDetail(false);
+                  notificationController.CountNewNotification();
                 },
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -147,6 +150,7 @@ class BottomBarPsycApp extends StatelessWidget {
                   children: [
                     IconButton(
                         onPressed: () {
+                          notificationController.CountNewNotification();
                           Get.to(ProfileConsultantScreen());
                         },
                         icon: Icon(Icons.manage_accounts_outlined))

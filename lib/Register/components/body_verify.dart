@@ -56,7 +56,7 @@ class _BodyVerifyState extends State<BodyVerify> {
                 //   color: Colors.deepPurple.shade50,
                 // ),
                 child: Image.asset(
-                  'assets/zodiac/logo.png',
+                  'assets/logo/logo.png',
                 ),
               ),
               SizedBox(

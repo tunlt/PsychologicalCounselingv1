@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:psychological_counseling/Register/register_screen.dart';
 import 'package:psychological_counseling/controller/login.dart';
 
 class Body extends StatefulWidget {
@@ -83,15 +84,15 @@ class _BodyState extends State<Body> {
                   child: Column(
                     children: [
                       const SizedBox(
-                        height: 50,
+                        height: 70,
                       ),
                       _logo(),
                       const SizedBox(
-                        height: 70,
+                        height: 50,
                       ),
                       _loginLabel(),
                       const SizedBox(
-                        height: 70,
+                        height: 50,
                       ),
                       _labelTextInput(
                           "Tài khoản", "Tên đăng nhập", false, username),
@@ -101,20 +102,24 @@ class _BodyState extends State<Body> {
                       _labelTextInput(
                           "Mật khẩu", "Nhập mật khẩu", true, password),
                       const SizedBox(
-                        height: 90,
+                        height: 3,
+                      ),
+                      _forgetPass(),
+                      const SizedBox(
+                        height: 40,
                       ),
                       _loginBtn(),
                       const SizedBox(
-                        height: 90,
+                        height: 50,
                       ),
                       _signUpLabel(
                           "Bạn chưa có tài khoản?", const Color(0xff909090)),
                       const SizedBox(
                         height: 10,
                       ),
-                      _signUpLabel("Đăng kí", const Color(0xff164276)),
+                      _signUpButton("Đăng kí", const Color(0xff164276)),
                       const SizedBox(
-                        height: 35,
+                        height: 25,
                       ),
                     ],
                   ),
@@ -129,8 +134,23 @@ class _BodyState extends State<Body> {
 }
 
 Widget _signUpLabel(String label, Color textColor) {
+  return Text(
+    label,
+    style: GoogleFonts.josefinSans(
+      textStyle: TextStyle(
+        color: textColor,
+        fontWeight: FontWeight.w800,
+        fontSize: 18,
+      ),
+    ),
+  );
+}
+
+Widget _signUpButton(String label, Color textColor) {
   return TextButton(
-      onPressed: () {},
+      onPressed: () {
+        Get.to(RegisterScreen());
+      },
       child: Text(
         "Đăng kí",
         style: GoogleFonts.josefinSans(
@@ -216,6 +236,19 @@ Widget _loginLabel() {
         ),
       ),
     ),
+  );
+}
+
+Widget _forgetPass() {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.end,
+    mainAxisAlignment: MainAxisAlignment.end,
+    children: [
+      TextButton(
+        onPressed: () {},
+        child: Text('Quên mật khẩu?'),
+      )
+    ],
   );
 }
 

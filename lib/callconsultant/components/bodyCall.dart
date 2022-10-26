@@ -64,7 +64,7 @@ class _BodyCallState extends State<BodyCall> {
     // DateTime? timestart = DateTime.now();
     minute = (timeNoti.hour * 60 + timeNoti.minute) -
         (timestart.hour * 60 + timestart.minute);
-    final timer = Timer(Duration(minutes: minute), () {
+    final timer = Timer(Duration(minutes: 1), () {
       setState(() {
         _showDialog();
       });
@@ -419,11 +419,11 @@ class _BodyCallState extends State<BodyCall> {
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
                             onPressed: () {
-                              timerStart(minute = finish.hour +
-                                  finish.minute -
-                                  timebegin.hour -
-                                  timebegin.minute);
-                              // timerStart(1);
+                              // timerStart(minute = finish.hour +
+                              //     finish.minute -
+                              //     timebegin.hour -
+                              //     timebegin.minute);
+                              timerStart(1);
                               Navigator.pop(context, 'Đồng ý');
                             },
                             child: const Text(
@@ -436,12 +436,12 @@ class _BodyCallState extends State<BodyCall> {
                       padding: EdgeInsets.only(left: 1),
                       child: ElevatedButton(
                           onPressed: () {
-                            timerStart(finish.hour +
-                                finish.minute -
-                                timebegin.hour -
-                                timebegin.minute +
-                                5);
-                            // timerStart(1);
+                            //   timerStart(finish.hour +
+                            //       finish.minute -
+                            //       timebegin.hour -
+                            //       timebegin.minute +
+                            //       5);
+                            timerStart(1);
                             Navigator.pop(context, 'Gia hạn thêm 5 phút');
                           },
                           child: const Text(

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -6,6 +8,7 @@ import 'package:psychological_counseling/Notification/notification_screen.dart';
 import 'package:psychological_counseling/Profile/conponents/editprofile.dart';
 import 'package:psychological_counseling/controller/consultant.dart';
 import 'package:psychological_counseling/controller/login.dart';
+import 'package:psychological_counseling/controller/notification.dart';
 
 class ProfileConsultant extends StatefulWidget {
   const ProfileConsultant({super.key});
@@ -17,8 +20,31 @@ class ProfileConsultant extends StatefulWidget {
 final ConsultantController consultantController =
     Get.find<ConsultantController>();
 final logoutController = Get.find<LoginController>();
+final notificationController = Get.find<NotificationController>();
+
+Timer? _timer;
 
 class _ProfileConsultantState extends State<ProfileConsultant> {
+  void initState() {
+    super.initState();
+    notificationController.CountNewNotification();
+    timeStart();
+  }
+
+  void timeStart() {
+    _timer = Timer(Duration(milliseconds: 3000), () {
+      notificationController.CountNewNotification();
+      print(notificationController.countNotification.value);
+      countNoti();
+      timeStart();
+    });
+  }
+
+  void dispose() {
+    super.dispose();
+    _timer!.cancel();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,11 +131,16 @@ class _ProfileConsultantState extends State<ProfileConsultant> {
                   backgroundColor: Color(0xFFF5F6F9),
                 ),
                 onPressed: () {
-                  Get.to(NotificationScreen());
+                  notificationController.getLitsNotification(true);
                 },
                 child: Row(
                   children: [
-                    Icon(Icons.notifications),
+                    Container(
+                      child: Stack(children: <Widget>[
+                        Icon(Icons.notifications),
+                        countNoti()!,
+                      ]),
+                    ),
                     SizedBox(width: 20),
                     Expanded(child: Text("Thông báo")),
                     Icon(Icons.arrow_forward_ios),
@@ -207,5 +238,29 @@ class _ProfileConsultantState extends State<ProfileConsultant> {
         ),
       ),
     );
+  }
+
+  Align? countNoti() {
+    return Align(
+        alignment: Alignment.topLeft,
+        child: Container(
+          width: 15,
+          height: 15,
+          decoration: notificationController.countNotification.value == 0
+              ? BoxDecoration()
+              : BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+          child: Center(
+            child: Obx(
+              () => Text(
+                notificationController.countNotification.value == 0
+                    ? ''
+                    : '${notificationController.countNotification.value}',
+                style: notificationController.countNotification.value == 0
+                    ? TextStyle()
+                    : TextStyle(fontSize: 8, color: Colors.white),
+              ),
+            ),
+          ),
+        ));
   }
 }

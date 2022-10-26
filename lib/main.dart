@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:psychological_counseling/History/history_screen.dart';
+import 'package:psychological_counseling/Live.dart/live_screen.dart';
 import 'package:psychological_counseling/Login/login_screen.dart';
 import 'package:psychological_counseling/Notification/notification_screen.dart';
 import 'package:psychological_counseling/Profile/editprofile_screen.dart';
@@ -83,6 +84,8 @@ void main() async {
             name: '/notification_screen',
             page: () => NotificationScreen(),
             binding: Binding()),
+        GetPage(
+            name: '/live_screen', page: () => LiveScreen(), binding: Binding()),
       ],
     ),
   );

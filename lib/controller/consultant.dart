@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:jwt_decode/jwt_decode.dart';
-import 'package:psychological_counseling/Profile/conponents/editprofile.dart';
 import 'package:psychological_counseling/Profile/editprofile_screen.dart';
 import 'package:psychological_counseling/Profile/profile_screen.dart';
 import 'package:psychological_counseling/model/consultant.dart';
@@ -104,7 +102,7 @@ class ConsultantController extends GetxController {
       final String body = json.encode({
         "fullName": fullname.text,
         "email": email.text,
-        "avartarUrl": urlImage,
+        "imageUrl": urlImage,
         "address": address.text,
         "dob": "$dob",
         "gender": gender,

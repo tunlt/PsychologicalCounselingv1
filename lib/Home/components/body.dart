@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:psychological_counseling/Live.dart/live_screen.dart';
 import 'package:psychological_counseling/Schedule/schedule_screen.dart';
 import 'package:psychological_counseling/controller/slot.dart';
+import 'package:psychological_counseling/controller/slotlive.dart';
 
 class Body extends StatefulWidget {
   const Body({super.key});
@@ -12,6 +14,7 @@ class Body extends StatefulWidget {
 }
 
 final scheduleController = Get.find<SlotbookingController>();
+final slotLiveController = Get.find<SlotLiveController>();
 
 class _BodyState extends State<Body> {
   @override
@@ -87,7 +90,11 @@ class _BodyState extends State<Body> {
                               borderRadius: BorderRadius.circular(5),
                             ),
                             child: IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                slotLiveController.getListSlotLive(
+                                    DateFormat('yyyy-mm-dd')
+                                        .format(DateTime.now()));
+                              },
                               icon: Image.asset("assets/icon/live.png"),
                               iconSize: 75,
                             ),

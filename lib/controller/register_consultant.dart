@@ -14,7 +14,7 @@ class RegisterController extends GetxController {
       usernameController,
       passwordController,
       addressController,
-      genderController,
+      String gender,
       dobController,
       phoneController,
       String? avatarURL) async {
@@ -34,7 +34,7 @@ class RegisterController extends GetxController {
         'fullName': fullnameController.text,
         'address': addressController.text,
         'dob': dobController.text,
-        'gender': genderController.text,
+        'gender': gender,
         'phone': phoneController.text,
         'imageUrl': avatarURL,
       });

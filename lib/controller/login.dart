@@ -72,6 +72,6 @@ class LoginController extends GetxController {
     prefs.clear();
     // Get.reset();
     // Get.to(LoginScreen());
-    Get.offAll(LoginScreen());
+    Get.to(LoginScreen());
   }
 }
