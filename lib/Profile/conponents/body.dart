@@ -9,6 +9,7 @@ import 'package:psychological_counseling/Profile/conponents/editprofile.dart';
 import 'package:psychological_counseling/controller/consultant.dart';
 import 'package:psychological_counseling/controller/login.dart';
 import 'package:psychological_counseling/controller/notification.dart';
+import 'package:badges/badges.dart';
 
 class ProfileConsultant extends StatefulWidget {
   const ProfileConsultant({super.key});
@@ -21,6 +22,7 @@ final ConsultantController consultantController =
     Get.find<ConsultantController>();
 final logoutController = Get.find<LoginController>();
 final notificationController = Get.find<NotificationController>();
+int? countnoti;
 
 Timer? _timer;
 
@@ -28,6 +30,7 @@ class _ProfileConsultantState extends State<ProfileConsultant> {
   void initState() {
     super.initState();
     notificationController.CountNewNotification();
+    countnoti = notificationController.countNotification.value;
     timeStart();
   }
 
@@ -35,7 +38,7 @@ class _ProfileConsultantState extends State<ProfileConsultant> {
     _timer = Timer(Duration(milliseconds: 3000), () {
       notificationController.CountNewNotification();
       print(notificationController.countNotification.value);
-      countNoti();
+      countnoti = notificationController.countNotification.value;
       timeStart();
     });
   }
@@ -136,11 +139,18 @@ class _ProfileConsultantState extends State<ProfileConsultant> {
                 child: Row(
                   children: [
                     Container(
-                      child: Stack(children: <Widget>[
-                        Icon(Icons.notifications),
-                        countNoti()!,
-                      ]),
-                    ),
+                        child: Obx(
+                      () => Badge(
+                        badgeContent: Text(
+                            '${notificationController.countNotification.value}'),
+                        child: Icon(Icons.notifications),
+                        showBadge:
+                            notificationController.countNotification.value > 0
+                                ? true
+                                : false,
+                        animationType: BadgeAnimationType.scale,
+                      ),
+                    )),
                     SizedBox(width: 20),
                     Expanded(child: Text("Thông báo")),
                     Icon(Icons.arrow_forward_ios),
@@ -238,29 +248,5 @@ class _ProfileConsultantState extends State<ProfileConsultant> {
         ),
       ),
     );
-  }
-
-  Align? countNoti() {
-    return Align(
-        alignment: Alignment.topLeft,
-        child: Container(
-          width: 15,
-          height: 15,
-          decoration: notificationController.countNotification.value == 0
-              ? BoxDecoration()
-              : BoxDecoration(shape: BoxShape.circle, color: Colors.red),
-          child: Center(
-            child: Obx(
-              () => Text(
-                notificationController.countNotification.value == 0
-                    ? ''
-                    : '${notificationController.countNotification.value}',
-                style: notificationController.countNotification.value == 0
-                    ? TextStyle()
-                    : TextStyle(fontSize: 8, color: Colors.white),
-              ),
-            ),
-          ),
-        ));
   }
 }

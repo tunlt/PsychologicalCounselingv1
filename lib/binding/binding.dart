@@ -13,6 +13,7 @@ import 'package:psychological_counseling/controller/login.dart';
 import 'package:psychological_counseling/controller/notification.dart';
 import 'package:psychological_counseling/controller/register_consultant.dart';
 import 'package:psychological_counseling/controller/roomslotbooking.dart';
+import 'package:psychological_counseling/controller/roomslotlive.dart';
 import 'package:psychological_counseling/controller/slot.dart';
 import 'package:psychological_counseling/controller/slotlive.dart';
 import 'package:psychological_counseling/controller/verifyemail.dart';
@@ -37,5 +38,6 @@ class Binding implements Bindings {
     Get.lazyPut(() => NotificationController());
     Get.lazyPut(() => LiveScreen());
     Get.lazyPut(() => SlotLiveController());
+    Get.lazyPut(() => RoomSlotLiveController());
   }
 }

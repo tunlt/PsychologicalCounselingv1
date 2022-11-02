@@ -137,7 +137,7 @@ class _BodyState extends State<Body> {
                       child: AlertDialog(
                         title: Center(
                             child: const Text(
-                                "Nhập thời gian bạn muốn tạo slot? (mỗi slot là 30 phút)")),
+                                "Nhập thời gian bạn muốn bắt đầu live? (mỗi buổi live giới hạn là 120 phút)")),
                         actions: [
                           Column(
                             children: [
@@ -234,25 +234,24 @@ class _BodyState extends State<Body> {
                                     builder: (context) => ElevatedButton.icon(
                                       icon: Icon(Icons.add_alarm),
                                       onPressed: () {
-                                        // if (checkTime(timeStart, time)) {
-                                        //   print(timeConver);
-                                        // slotLiveController.addSlotBooking(
-                                        //     format.format(_focusedDay),
-                                        //     '${timeStart.hour.toString().padLeft(2, '0')}:${timeStart.minute.toString().padLeft(2, '0')}',
-                                        //     price);
-                                        Navigator.of(context).pop();
-                                        // } else {
-                                        //     Fluttertoast.showToast(
-                                        //         msg:
-                                        //             "Thời gian bắt đầu phải lớn hơn thời gian hiện tại ",
-                                        //         toastLength: Toast.LENGTH_SHORT,
-                                        //         gravity: ToastGravity.BOTTOM,
-                                        //         timeInSecForIosWeb: 1,
-                                        //         backgroundColor:
-                                        //             Colors.red.shade200,
-                                        //         textColor: Colors.black,
-                                        //         fontSize: 16.0);
-                                        //   }
+                                        if (checkTime(timeStart, time)) {
+                                          slotLiveController.addSlotLive(
+                                              format.format(_focusedDay),
+                                              '${timeStart.hour.toString().padLeft(2, '0')}:${timeStart.minute.toString().padLeft(2, '0')}',
+                                              price);
+                                          Navigator.of(context).pop();
+                                        } else {
+                                          Fluttertoast.showToast(
+                                              msg:
+                                                  "Thời gian bắt đầu phải lớn hơn thời gian hiện tại ",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor:
+                                                  Colors.red.shade200,
+                                              textColor: Colors.black,
+                                              fontSize: 16.0);
+                                        }
                                       },
                                       label: Text(
                                         'Thêm Slot',

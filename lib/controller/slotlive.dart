@@ -50,59 +50,109 @@ class SlotLiveController extends GetxController {
     }
     return listSlotLive;
   }
-  // // create slot
+  // create slotlive
 
-  // Future<void> addSlotBooking(
-  //   String dateSlot,
-  //   String timeStart,
-  //   TextEditingController crab,
-  //   // TextEditingController? price,
-  // ) async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   int? id = prefs.getInt('id');
-  //   // final String? token = prefs.getString('token');
-  //   try {
-  //     String body = json.encode({
-  //       'timeStart': timeStart,
-  //       'dateSlot': dateSlot,
-  //       'consultantId': id,
-  //       'price': crab.text,
-  //       // "price": price?.text,
-  //     });
-  //     print(body);
-  //     final response = await http.post(
-  //         Uri.parse(
-  //             "https://psycteam.azurewebsites.net/api/SlotBookings/create"),
-  //         body: body,
-  //         headers: {"content-type": "application/json"});
-  //     print(response.statusCode);
-  //     var jsonString = json.decode(response.body);
-  //     if (response.statusCode == 200) {
-  //       getListSlotBooking(dateSlot);
-  //       Get.to(ScheduleScreen());
-  //       Fluttertoast.showToast(
-  //           msg: "${jsonString['message']}",
-  //           toastLength: Toast.LENGTH_SHORT,
-  //           gravity: ToastGravity.BOTTOM,
-  //           timeInSecForIosWeb: 5,
-  //           backgroundColor: Colors.red.shade300,
-  //           textColor: Colors.black,
-  //           fontSize: 16.0);
-  //     } else {
-  //       Fluttertoast.showToast(
-  //           msg: "${jsonString['message']}",
-  //           toastLength: Toast.LENGTH_SHORT,
-  //           gravity: ToastGravity.BOTTOM,
-  //           timeInSecForIosWeb: 1,
-  //           backgroundColor: Colors.red.shade200,
-  //           textColor: Colors.black,
-  //           fontSize: 16.0);
-  //     }
-  //   } catch (error) {
-  //     print(error);
-  //   }
-  // }
+  Future<void> addSlotLive(
+    String dateSlot,
+    String timeStart,
+    TextEditingController description,
+  ) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? id = prefs.getInt('id');
+    // final String? token = prefs.getString('token');
+    try {
+      String body = json.encode({
+        'timeStart': timeStart,
+        'dateSlot': dateSlot,
+        'consultantId': id,
+        'description': description.text,
+        // "price": price?.text,
+      });
+      print(body);
+      final response = await http.post(
+          Uri.parse(
+              "https://psycteam.azurewebsites.net/api/SlotBookings/createlivestream"),
+          body: body,
+          headers: {"content-type": "application/json"});
+      print(response.statusCode);
+      var jsonString = json.decode(response.body);
+      if (response.statusCode == 200) {
+        getListSlotLive(dateSlot);
+        Fluttertoast.showToast(
+            msg: "${jsonString['message']}",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 5,
+            backgroundColor: Colors.green,
+            textColor: Colors.black,
+            fontSize: 16.0);
+      } else {
+        Fluttertoast.showToast(
+            msg: "${jsonString['message']}",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red.shade200,
+            textColor: Colors.black,
+            fontSize: 16.0);
+      }
+    } catch (error) {
+      print(error);
+    }
+  }
 
+  Future<void> CancelSlotLive(
+    int idSlot,
+    String dateSlot,
+  ) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // final String? token = prefs.getString('token');
+    String? token = prefs.getString('token');
+    try {
+      final Map<String, String> queryparam = {
+        'id': idSlot.toString(),
+      };
+      final response = await http.put(
+          Uri.parse(
+                  "https://psycteam.azurewebsites.net/api/SlotBookings/remove")
+              .replace(queryParameters: queryparam),
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $token"
+          });
+
+      print("cancel Slot live chạy");
+
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        print("cancel chạy");
+        // Get.to(VerifyEmailScreen());
+        getListSlotLive(dateSlot);
+        Get.to(LiveScreen());
+        Fluttertoast.showToast(
+            msg: "Hủy thành công",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3,
+            backgroundColor: Color.fromARGB(255, 108, 219, 113),
+            textColor: Colors.black,
+            fontSize: 16.0);
+      } else {
+        // print("fail regis");
+        Fluttertoast.showToast(
+            msg: "Hủy thất bại",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red.shade200,
+            textColor: Colors.black,
+            fontSize: 16.0);
+      }
+    } catch (error) {
+      print(error);
+    }
+  }
   // Future<void> confirmVideocall(int? id) async {
   //   final SharedPreferences prefs = await SharedPreferences.getInstance();
   //   final String? token = prefs.getString('token');
