@@ -27,7 +27,7 @@ class SlotLiveController extends GetxController {
       isLoading(true);
       final response = await http.get(
           Uri.parse(
-              'https://psycteam.azurewebsites.net/api/SlotBookings/GetSlotLiveStreamByDateAndConsultanid?date=${date}&consultantid=${id}'),
+              'https://psycteamv2.azurewebsites.net/api/SlotBookings/GetSlotLiveStreamByDateAndConsultanid?date=${date}&consultantid=${id}'),
           headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer $token"
@@ -71,7 +71,7 @@ class SlotLiveController extends GetxController {
       print(body);
       final response = await http.post(
           Uri.parse(
-              "https://psycteam.azurewebsites.net/api/SlotBookings/createlivestream"),
+              "https://psycteamv2.azurewebsites.net/api/SlotBookings/createlivestream"),
           body: body,
           headers: {"content-type": "application/json"});
       print(response.statusCode);
@@ -115,7 +115,7 @@ class SlotLiveController extends GetxController {
       };
       final response = await http.put(
           Uri.parse(
-                  "https://psycteam.azurewebsites.net/api/SlotBookings/remove")
+                  "https://psycteamv2.azurewebsites.net/api/SlotBookings/remove")
               .replace(queryParameters: queryparam),
           headers: {
             "Content-Type": "application/json",

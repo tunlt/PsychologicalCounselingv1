@@ -1,13 +1,13 @@
 // To parse this JSON data, do
 //
-//     final ConsultantResponse = ConsultantResponseFromJson(jsonString);
+//     final consultantResponse = consultantResponseFromJson(jsonString);
 
 import 'dart:convert';
 
-ConsultantResponse ConsultantResponseFromJson(String str) =>
+ConsultantResponse consultantResponseFromJson(String str) =>
     ConsultantResponse.fromJson(json.decode(str));
 
-String ConsultantResponseToJson(ConsultantResponse data) =>
+String consultantResponseToJson(ConsultantResponse data) =>
     json.encode(data.toJson());
 
 class ConsultantResponse {
@@ -40,59 +40,59 @@ class Consultant {
   Consultant({
     this.id,
     this.fullName,
-    this.email,
-    this.avartarUrl,
     this.imageUrl,
+    this.email,
     this.address,
     this.dob,
     this.gender,
     this.phone,
+    this.status,
     this.experience,
     this.rating,
-    this.status,
+    this.specialization,
   });
 
   int? id;
   String? fullName;
-  String? email;
-  String? avartarUrl;
   String? imageUrl;
+  String? email;
   String? address;
   DateTime? dob;
   String? gender;
   String? phone;
-  int? experience;
-  int? rating;
   String? status;
+  int? experience;
+  double? rating;
+  String? specialization;
 
   factory Consultant.fromJson(Map<String, dynamic> json) => Consultant(
         id: json["id"],
         fullName: json["fullName"],
-        email: json["email"],
-        avartarUrl: json["avartarUrl"],
         imageUrl: json["imageUrl"],
+        email: json["email"],
         address: json["address"],
         dob: DateTime.parse(json["dob"]),
         gender: json["gender"],
         phone: json["phone"],
-        experience: json["experience"],
-        rating: json["rating"],
         status: json["status"],
+        experience: json["experience"],
+        rating: json["rating"].toDouble(),
+        specialization: json["specialization"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "fullName": fullName,
-        "email": email,
-        "avartarUrl": avartarUrl,
         "imageUrl": imageUrl,
+        "email": email,
         "address": address,
         "dob":
             "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
         "gender": gender,
         "phone": phone,
+        "status": status,
         "experience": experience,
         "rating": rating,
-        "status": status,
+        "specialization": specialization,
       };
 }

@@ -48,7 +48,7 @@ class _BodyLiveState extends State<BodyLive> {
   //     });
   //   });
   // }
-
+  final timer;
   final slotbookingcontroller = Get.find<SlotbookingController>();
   @override
   void initState() {
@@ -58,13 +58,14 @@ class _BodyLiveState extends State<BodyLive> {
     DateTime? timefinish = widget.timeEnd!;
     DateTime? timestart =
         DateFormat("yyyy-MM-dd HH:mm").parse('${DateTime.now()}');
+
     print(timestart);
     print(timeNoti);
     print(timefinish);
     // DateTime? timestart = DateTime.now();
     minute = (timeNoti.hour * 60 + timeNoti.minute) -
         (timestart.hour * 60 + timestart.minute);
-    final timer = Timer(Duration(minutes: 1), () {
+    timer = Timer(Duration(minutes: 1), () {
       setState(() {
         _showDialog();
       });

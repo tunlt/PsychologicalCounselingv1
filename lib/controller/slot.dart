@@ -5,15 +5,20 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:psychological_counseling/Appointment/detail_screen.dart';
+import 'package:psychological_counseling/History/historydetail_screen.dart';
 import 'package:psychological_counseling/Schedule/schedule_screen.dart';
 import 'package:psychological_counseling/controller/appointment.dart';
-import 'package:psychological_counseling/model/appointment.dart';
+import 'package:psychological_counseling/model/detailbooking.dart';
+import 'package:psychological_counseling/model/detailhistory.dart';
 import 'package:psychological_counseling/model/slotbooking.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SlotbookingController extends GetxController {
   var isLoading = true.obs;
   late List<SlotBooking> listSlotBooking = <SlotBooking>[].obs;
+  late List<DetailBooking> listbookingDetail = <DetailBooking>[].obs;
+  late List<DetailHistory> listhistoryDetail = <DetailHistory>[].obs;
   final appointmentController = Get.find<AppointmentController>();
 
   var formatdate = DateFormat('yyyy-MM-dd');
@@ -29,7 +34,7 @@ class SlotbookingController extends GetxController {
       isLoading(true);
       final response = await http.get(
           Uri.parse(
-              'https://psycteam.azurewebsites.net/api/SlotBookings/GetSlotBookingByDateAndConsultanid?date=${date}&consultantid=${id}'),
+              'https://psycteamv2.azurewebsites.net/api/SlotBookings/GetSlotBookingByDateAndConsultanid?date=${date}&consultantid=${id}'),
           headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer $token"
@@ -73,7 +78,7 @@ class SlotbookingController extends GetxController {
       print(body);
       final response = await http.post(
           Uri.parse(
-              "https://psycteam.azurewebsites.net/api/SlotBookings/create"),
+              "https://psycteamv2.azurewebsites.net/api/SlotBookings/create"),
           body: body,
           headers: {"content-type": "application/json"});
       print(response.statusCode);
@@ -108,9 +113,10 @@ class SlotbookingController extends GetxController {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? token = prefs.getString('token');
     try {
+      print(id);
       final response = await http.put(
           Uri.parse(
-              "https://psycteam.azurewebsites.net/api/SlotBookings/confirmvideocall?id=${id}"),
+              "https://psycteamv2.azurewebsites.net/api/SlotBookings/confirmlivestream?id=${id}"),
           headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer $token"
@@ -144,6 +150,69 @@ class SlotbookingController extends GetxController {
             backgroundColor: Colors.red.shade200,
             textColor: Colors.black,
             fontSize: 16.0);
+      }
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> CustomerDetailBooking(int? idslotBooking) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    try {
+      final response = await http.get(
+          Uri.parse(
+              "https://psycteamv2.azurewebsites.net/api/SlotBookings/detailcustomerbyslotid?id=${idslotBooking}"),
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $token"
+          });
+
+      print(response.statusCode);
+
+      if (response.statusCode == 200) {
+        // var jsonString = response.body;
+        var jsonString = response.body;
+        print(jsonString);
+        var detailBooking = detailBookingResponseFromJson(jsonString);
+        print("chạy ở đây");
+        if (detailBooking.data != null) {
+          listbookingDetail = detailBooking.data as List<DetailBooking>;
+          print("o day co detail slotbooking");
+          Get.to(DetailUpcomingScreen());
+          update();
+        }
+      }
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> CustomerDetailHistory(int? idslotBooking) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    try {
+      final response = await http.get(
+          Uri.parse(
+              "https://psycteamv2.azurewebsites.net/api/SlotBookings/getdetailslotbookingv2?id=${idslotBooking}"),
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $token"
+          });
+
+      print(response.statusCode);
+
+      if (response.statusCode == 200) {
+        // var jsonString = response.body;
+        var jsonString = response.body;
+        print(jsonString);
+        var detailHistory = detailHistoryResponseFromJson(jsonString);
+        if (detailHistory.data != null) {
+          listhistoryDetail = detailHistory.data as List<DetailHistory>;
+          print("o day co detail history");
+          Get.to(DetailHistoryScreen());
+          update();
+        }
       }
     } catch (error) {
       print(error);

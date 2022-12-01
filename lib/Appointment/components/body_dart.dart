@@ -42,44 +42,44 @@ class _Body extends State<Body> {
         title: Text("Cuộc hẹn sắp tới"),
         backgroundColor: Colors.purple,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Card(
-                child: TableCalendar(
-                  focusedDay: DateTime.now(),
-                  firstDay: DateTime.now(),
-                  // firstDay: DateTime.now().subtract(Duration(days: 7)),
-                  lastDay: DateTime.now().add(Duration(days: 30)),
-                  selectedDayPredicate: (day) {
-                    return isSameDay(_selectedDay, day);
-                  },
-                  onDaySelected: (selectedDay, focusedDay) {
-                    setState(() {
-                      _selectedDay = selectedDay;
-                      _focusedDay =
-                          focusedDay; // update `_focusedDay` here as well
-                      appointmentController.getListUpcommingAppointment(
-                          format.format(_focusedDay));
-                      print(_focusedDay);
-                    });
-                  },
-                  calendarFormat: _calendarFormat,
-                  onFormatChanged: (format) {
-                    setState(() {
-                      _calendarFormat = format;
-                    });
-                  },
-                  onPageChanged: (focusedDay) {
-                    _focusedDay = focusedDay;
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Card(
+              child: TableCalendar(
+                focusedDay: DateTime.now(),
+                firstDay: DateTime.now(),
+                // firstDay: DateTime.now().subtract(Duration(days: 7)),
+                lastDay: DateTime.now().add(Duration(days: 30)),
+                selectedDayPredicate: (day) {
+                  return isSameDay(_selectedDay, day);
+                },
+                onDaySelected: (selectedDay, focusedDay) {
+                  setState(() {
+                    _selectedDay = selectedDay;
+                    _focusedDay =
+                        focusedDay; // update `_focusedDay` here as well
+                    appointmentController.getListUpcommingAppointment(
+                        format.format(_focusedDay));
                     print(_focusedDay);
-                  },
-                ),
+                  });
+                },
+                calendarFormat: _calendarFormat,
+                onFormatChanged: (format) {
+                  setState(() {
+                    _calendarFormat = format;
+                  });
+                },
+                onPageChanged: (focusedDay) {
+                  _focusedDay = focusedDay;
+                  print(_focusedDay);
+                },
               ),
             ),
-            Padding(
+          ),
+          Expanded(
+            child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: GetBuilder<AppointmentController>(
                 builder: (controller) => (controller.isLoading.isTrue)
@@ -97,9 +97,9 @@ class _Body extends State<Body> {
                                 controller.listUpcommingAppointment.length,
                           ),
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

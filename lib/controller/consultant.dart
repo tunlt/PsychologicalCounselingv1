@@ -13,8 +13,52 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ConsultantController extends GetxController {
   var isLoading = true.obs;
   String? urlImage;
+  // late List<Consultant> consultantdetail = <Consultant>[].obs;
   late List<Consultant> consultantdetail = <Consultant>[].obs;
   late List<Consultant> consultantprofile = <Consultant>[].obs;
+  // Future<List<Consultant>> getConsultantDetail(bool check) async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   int? id = prefs.getInt('id');
+  //   String? token = prefs.getString('token');
+  //   try {
+  //     print('chay Consultant detail');
+  //     print(id);
+  //     isLoading(true);
+  //     final response = await http.get(
+  //         Uri.parse(
+  //             'https://psycteam.azurewebsites.net/api/Consultants/getbyid?id=${2}'),
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           "Authorization": "Bearer $token"
+  //         });
+  //     print(response.statusCode);
+  //     if (response.statusCode == 200) {
+  //       print('co chay day khong');
+
+  //       var jsonString = response.body;
+  //       print("o day co chay 2");
+  //       var consultant = consultantResponseFromJson(jsonString);
+
+  //       if (consultant.data != null) {
+  //         consultantdetail = consultant.data as List<Consultant>;
+
+  //         print(consultantdetail[0].imageUrl);
+  //         update();
+  //         if (check) {
+  //           Get.to(EditProfileConsultantScreen());
+  //         } else {
+  //           Get.to(ProfileConsultantScreen());
+  //         }
+  //       }
+  //     }
+  //   } catch (error) {
+  //     print('loi consul');
+  //   } finally {
+  //     isLoading(false);
+  //   }
+  //   return consultantdetail;
+  // }
+
   Future<List<Consultant>> getConsultantDetail(bool check) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     int? id = prefs.getInt('id');
@@ -25,22 +69,22 @@ class ConsultantController extends GetxController {
       isLoading(true);
       final response = await http.get(
           Uri.parse(
-              'https://www.psychologicalcounselingv1.somee.com/api/Consultants/getbyid?id=${id}'),
+              'https://psycteamv2.azurewebsites.net/api/Consultants/getbyid?id=${id}'),
           headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer $token"
           });
       print(response.statusCode);
       if (response.statusCode == 200) {
-        var jsonString = response.body;
+        print('co chay day khong');
 
-        var consultant = ConsultantResponseFromJson(jsonString);
-        print(consultant.data![0].dob);
-        print(consultant.data);
-        // consultant.data![0].dob = ;
+        var jsonString = response.body;
+        print("o day co chay 2");
+        var consultant = consultantResponseFromJson(jsonString);
+
         if (consultant.data != null) {
           consultantdetail = consultant.data as List<Consultant>;
-          print("o day co chay 2");
+
           update();
           if (check) {
             Get.to(EditProfileConsultantScreen());
@@ -64,7 +108,7 @@ class ConsultantController extends GetxController {
     String? token = prefs.getString('token');
     try {
       var postUri = Uri.parse(
-          "https://psycteam.azurewebsites.net/api/FirebaseServices/upload");
+          "https://psycteamv2.azurewebsites.net/api/FirebaseServices/upload");
       http.MultipartRequest request = http.MultipartRequest("POST", postUri);
       http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
         'file',
@@ -112,7 +156,7 @@ class ConsultantController extends GetxController {
       print(urlImage);
       final response = await http.put(
           Uri.parse(
-              "https://psycteam.azurewebsites.net/api/Consultants/update"),
+              "https://psycteamv2.azurewebsites.net/api/Consultants/update"),
           body: body,
           headers: {"content-type": "application/json"});
       print("update lên");

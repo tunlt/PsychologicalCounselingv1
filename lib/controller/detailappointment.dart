@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:psychological_counseling/Appointment/appointment_screen.dart';
 import 'package:psychological_counseling/History/history_screen.dart';
+import 'package:psychological_counseling/Schedule/schedule_screen.dart';
 import 'package:psychological_counseling/model/appointment.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

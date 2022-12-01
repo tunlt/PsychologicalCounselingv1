@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:psychological_counseling/Appointment/detail_screen.dart';
 import 'package:psychological_counseling/History/components/body.dart';
 import 'package:psychological_counseling/Schedule/components/body.dart';
 import 'package:psychological_counseling/controller/roomslotbooking.dart';
@@ -167,6 +168,32 @@ class BlockUpcoming extends StatelessWidget {
                                                       255, 109, 14, 96))),
                                       child: const Text(
                                         "Gọi video",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 2),
+                                  child: Container(
+                                    width: 120,
+                                    height: 22,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        slotBookingController
+                                            .CustomerDetailBooking(
+                                                appointment.id);
+                                      },
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Color.fromARGB(
+                                                      255, 17, 109, 14))),
+                                      child: const Text(
+                                        "Chi Tiết",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold,

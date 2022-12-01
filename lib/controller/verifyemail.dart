@@ -23,7 +23,8 @@ class VerifyEmailController extends GetxController {
 
       print(body);
       final response = await http.put(
-          Uri.parse("https://psycteam.azurewebsites.net/api/register/confirm"),
+          Uri.parse(
+              "https://psycteamv2.azurewebsites.net/api/register/confirm"),
           body: body,
           headers: {
             "Content-Type": "application/json",

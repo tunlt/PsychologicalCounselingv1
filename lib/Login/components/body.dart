@@ -29,103 +29,131 @@ class _BodyState extends State<Body> {
         .then((value) => loginController.setTokenDevice(value!));
   }
 
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Thông Báo?'),
+            content: new Text('Bạn có chắc muốn thoát'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('Không'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text('Có'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
     // ignore: todo
     // TODO: implement build
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: SizedBox(
-          width: double.infinity,
-          child: Stack(
-            children: [
-              Positioned(
-                top: 200,
-                left: -100,
-                child: Container(
-                  width: 300,
-                  height: 300,
-                  decoration: const BoxDecoration(
-                    color: Color(0x304599ff),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(150),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: SizedBox(
+            width: double.infinity,
+            child: Stack(
+              children: [
+                Positioned(
+                  top: 200,
+                  left: -100,
+                  child: Container(
+                    width: 300,
+                    height: 300,
+                    decoration: const BoxDecoration(
+                      color: Color(0x304599ff),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(150),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                bottom: 10,
-                right: -10,
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  decoration: const BoxDecoration(
-                    color: Color(0x30cc33ff),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(100),
+                Positioned(
+                  bottom: 10,
+                  right: -10,
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    decoration: const BoxDecoration(
+                      color: Color(0x30cc33ff),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(100),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: 80,
-                    sigmaY: 80,
-                  ),
-                  child: Container(),
-                ),
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 70,
-                      ),
-                      _logo(),
-                      const SizedBox(
-                        height: 50,
-                      ),
-                      _loginLabel(),
-                      const SizedBox(
-                        height: 50,
-                      ),
-                      _labelTextInput(
-                          "Tài khoản", "Tên đăng nhập", false, username),
-                      const SizedBox(
-                        height: 50,
-                      ),
-                      _labelTextInput(
-                          "Mật khẩu", "Nhập mật khẩu", true, password),
-                      const SizedBox(
-                        height: 3,
-                      ),
-                      _forgetPass(),
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      _loginBtn(),
-                      const SizedBox(
-                        height: 50,
-                      ),
-                      _signUpLabel(
-                          "Bạn chưa có tài khoản?", const Color(0xff909090)),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      _signUpButton("Đăng kí", const Color(0xff164276)),
-                      const SizedBox(
-                        height: 25,
-                      ),
-                    ],
+                Positioned(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(
+                      sigmaX: 80,
+                      sigmaY: 80,
+                    ),
+                    child: Container(),
                   ),
                 ),
-              ),
-            ],
+                SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 70,
+                        ),
+                        _logo(),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        _loginLabel(),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        _labelTextInput(
+                            "Tài khoản", "Tên đăng nhập", false, username),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        _labelTextInput(
+                            "Mật khẩu", "Nhập mật khẩu", true, password),
+                        const SizedBox(
+                          height: 3,
+                        ),
+                        _forgetPass(),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        _loading(),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        _loginBtn(),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        _signUpLabel(
+                            "Bạn chưa có tài khoản?", const Color(0xff909090)),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        _signUpButton("Đăng kí", const Color(0xff164276)),
+                        const SizedBox(
+                          height: 25,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -161,6 +189,15 @@ Widget _signUpButton(String label, Color textColor) {
           ),
         ),
       ));
+}
+
+Widget _loading() {
+  return Padding(
+      padding: EdgeInsets.zero,
+      child: Obx(() => Center(
+          child: loginController.isLoading.isFalse
+              ? CircularProgressIndicator()
+              : Container())));
 }
 
 Widget _loginBtn() {

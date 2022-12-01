@@ -22,6 +22,7 @@ class _EditProfileConsultantState extends State<EditProfileConsultant> {
   final TextEditingController _dob = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _phone = TextEditingController();
+  final TextEditingController _specialize = TextEditingController();
 
   // final format = DateFormat("yyyy-MM-dd");
   File? _imageFile;
@@ -35,15 +36,16 @@ class _EditProfileConsultantState extends State<EditProfileConsultant> {
     super.initState();
     _consultant.getConsultantDetail(true);
     // ignore: unrelated_type_equality_checks
-    // if (consultantController.isLoading == true) {
-    _fullname.text = '${_consultant.consultantdetail[0].fullName}';
-    _address.text = '${_consultant.consultantdetail[0].address}';
-    dob = _convertStringToDateTime('${_consultant.consultantdetail[0].dob}')!;
-    _dob.text = DateFormat("yyyy-MM-dd").format(dob);
-    _email.text = '${_consultant.consultantdetail[0].email}';
-    gender = '${_consultant.consultantdetail[0].gender}';
-    _phone.text = '${_consultant.consultantdetail[0].phone}';
-    // } else {}
+    if (_consultant.isLoading == false) {
+      _fullname.text = '${_consultant.consultantdetail[0].fullName}';
+      _address.text = '${_consultant.consultantdetail[0].address}';
+      dob = _convertStringToDateTime('${_consultant.consultantdetail[0].dob}')!;
+      _dob.text = DateFormat("yyyy-MM-dd").format(dob);
+      _email.text = '${_consultant.consultantdetail[0].email}';
+      gender = '${_consultant.consultantdetail[0].gender}';
+      _phone.text = '${_consultant.consultantdetail[0].phone}';
+      _specialize.text = '${_consultant.consultantdetail[0].specialization}';
+    } else {}
   }
 
   _getFromCamera() async {
@@ -248,6 +250,30 @@ class _EditProfileConsultantState extends State<EditProfileConsultant> {
                     controller: _address,
                   )),
                 ],
+              ),
+            ),
+            GestureDetector(
+              onTap: () {},
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 3),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.work,
+                      color: Colors.purple,
+                    ),
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: Tooltip(
+                        message: 'Bạn không thể thay đổi địa chỉ email',
+                        child: TextField(
+                          readOnly: true,
+                          controller: _specialize,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(height: 13),

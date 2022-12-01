@@ -38,12 +38,11 @@ class _Body extends State<Body> {
     // Service service=list.allService[0];
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Lịch sử cuộc hẹn"),
-        backgroundColor: Colors.purple,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
+        appBar: AppBar(
+          title: Text("Lịch sử cuộc hẹn"),
+          backgroundColor: Colors.purple,
+        ),
+        body: Column(
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
@@ -82,26 +81,27 @@ class _Body extends State<Body> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: GetBuilder<AppointmentController>(
-                builder: (controller) => (controller.isLoading.isTrue)
-                    ? const Center(child: CircularProgressIndicator())
-                    : controller.listHistoryAppointment.isEmpty
-                        ? const Center(
-                            child: Text('Bạn chưa có lịch cho ngày này !'))
-                        : ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: (ctx, i) => BlockHistory(
-                                controller.listHistoryAppointment[i]),
-                            itemCount: controller.listHistoryAppointment.length,
-                          ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: GetBuilder<AppointmentController>(
+                  builder: (controller) => (controller.isLoading.isTrue)
+                      ? const Center(child: CircularProgressIndicator())
+                      : controller.listHistoryAppointment.isEmpty
+                          ? const Center(
+                              child: Text('Bạn chưa có lịch cho ngày này !'))
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemBuilder: (ctx, i) => BlockHistory(
+                                  controller.listHistoryAppointment[i]),
+                              itemCount:
+                                  controller.listHistoryAppointment.length,
+                            ),
+                ),
               ),
             )
           ],
-        ),
-      ),
-    );
+        ));
   }
 }

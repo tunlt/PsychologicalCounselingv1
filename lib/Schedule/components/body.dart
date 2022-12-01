@@ -72,42 +72,42 @@ class _BodyState extends State<Body> {
           title: Text('Cuộc hẹn của bạn'),
           backgroundColor: Colors.purple,
         ),
-        body: SingleChildScrollView(
-          child: Column(children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Card(
-                child: TableCalendar(
-                  // locale: 'us',
-                  focusedDay: DateTime.now(),
-                  firstDay: DateTime.now(),
-                  // firstDay: DateTime.now().subtract(Duration(days: 7)),
-                  lastDay: DateTime.now().add(Duration(days: 30)),
-                  selectedDayPredicate: (day) {
-                    return isSameDay(_selectedDay, day);
-                  },
-                  onDaySelected: (selectedDay, focusedDay) {
-                    setState(() {
-                      _selectedDay = selectedDay;
-                      _focusedDay = focusedDay;
-                      slotBookingController.getListSlotBooking(format.format(
-                          _focusedDay)); // update `_focusedDay` here as well
-                      print(format.format(_focusedDay));
-                    });
-                  },
-                  calendarFormat: _calendarFormat,
-                  onFormatChanged: (format) {
-                    setState(() {
-                      _calendarFormat = format;
-                    });
-                  },
-                  onPageChanged: (focusedDay) {
+        body: Column(children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Card(
+              child: TableCalendar(
+                // locale: 'us',
+                focusedDay: DateTime.now(),
+                firstDay: DateTime.now(),
+                // firstDay: DateTime.now().subtract(Duration(days: 7)),
+                lastDay: DateTime.now().add(Duration(days: 30)),
+                selectedDayPredicate: (day) {
+                  return isSameDay(_selectedDay, day);
+                },
+                onDaySelected: (selectedDay, focusedDay) {
+                  setState(() {
+                    _selectedDay = selectedDay;
                     _focusedDay = focusedDay;
-                  },
-                ),
+                    slotBookingController.getListSlotBooking(format.format(
+                        _focusedDay)); // update `_focusedDay` here as well
+                    print(format.format(_focusedDay));
+                  });
+                },
+                calendarFormat: _calendarFormat,
+                onFormatChanged: (format) {
+                  setState(() {
+                    _calendarFormat = format;
+                  });
+                },
+                onPageChanged: (focusedDay) {
+                  _focusedDay = focusedDay;
+                },
               ),
             ),
-            Padding(
+          ),
+          Expanded(
+            child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: GetBuilder<SlotbookingController>(
                 builder: (controller) => (controller.isLoading.isTrue)
@@ -123,9 +123,9 @@ class _BodyState extends State<Body> {
                             itemCount: controller.listSlotBooking.length,
                           ),
               ),
-            )
-          ]),
-        ),
+            ),
+          )
+        ]),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             showDialog(

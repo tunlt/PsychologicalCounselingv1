@@ -23,7 +23,7 @@ class RoomSlotBookingAppointmentController extends GetxController {
       isLoading(true);
       final response = await http.get(
           Uri.parse(
-              'https://psycteam.azurewebsites.net/api/SlotBookings/getroomslotbooking?id=${id}'),
+              'https://psycteamv2.azurewebsites.net/api/SlotBookings/getroomslotbooking?id=${id}'),
           headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer $token"

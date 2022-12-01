@@ -19,7 +19,9 @@ class LoginController extends GetxController {
   Future<void> LoginConsultant(
       TextEditingController usernameController, passwordController) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+
     try {
+      isLoading(false);
       final String body = json.encode({
         'userName': usernameController.text,
         'passWord': passwordController.text,
@@ -29,7 +31,7 @@ class LoginController extends GetxController {
       print(body);
       final response = await http.post(
           Uri.parse(
-              "https://psycteam.azurewebsites.net/api/FirebaseServices/loginconsultant"),
+              "https://psycteamv2.azurewebsites.net/api/FirebaseServices/loginconsultant"),
           body: body,
           headers: {"content-type": "application/json"});
       print("api len");
@@ -37,8 +39,6 @@ class LoginController extends GetxController {
       if (response.statusCode == 200) {
         print("Login success");
         var jsonString = json.decode(response.body);
-        Map<String, dynamic> payload = Jwt.parseJwt(response.body);
-        print(payload);
         int consultantId = jsonString['id'];
         var token = jsonString['jwttoken'];
         prefs.setInt('id', consultantId);
@@ -59,6 +59,8 @@ class LoginController extends GetxController {
       }
     } catch (error) {
       print(error);
+    } finally {
+      isLoading(true);
     }
   }
 

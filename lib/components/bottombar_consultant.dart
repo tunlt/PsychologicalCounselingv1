@@ -151,7 +151,7 @@ class BottomBarPsycApp extends StatelessWidget {
                     IconButton(
                         onPressed: () {
                           notificationController.CountNewNotification();
-                          Get.to(ProfileConsultantScreen());
+                          _consultant.getConsultantDetail(false);
                         },
                         icon: Icon(Icons.manage_accounts_outlined))
                   ],

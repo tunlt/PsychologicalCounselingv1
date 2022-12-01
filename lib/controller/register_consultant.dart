@@ -41,13 +41,13 @@ class RegisterController extends GetxController {
       print(body);
       final response = await http.post(
           Uri.parse(
-              "https://psycteam.azurewebsites.net/api/Users/createconsultantv2"),
+              "https://psycteamv2.azurewebsites.net/api/Users/createconsultantv2"),
           body: body,
           headers: {"content-type": "application/json"});
 
       final response2 = await http.put(
           Uri.parse(
-              "https://psycteam.azurewebsites.net/api/Consultants/update"),
+              "https://psycteamv2.azurewebsites.net/api/Consultants/update"),
           body: body2,
           headers: {
             "Content-Type": "application/json",
@@ -66,7 +66,7 @@ class RegisterController extends GetxController {
             msg: "Code đã được gửi vào mail của bạn",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
+            timeInSecForIosWeb: 5,
             backgroundColor: Color.fromARGB(255, 44, 194, 6),
             textColor: Colors.black,
             fontSize: 16.0);

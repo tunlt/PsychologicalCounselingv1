@@ -23,7 +23,7 @@ class NotificationController extends GetxController {
       isLoading(true);
       final response = await http.get(
           Uri.parse(
-              'https://psycteam.azurewebsites.net/api/Notifications/getnotificationbyconsultant?id=${id}'),
+              'https://psycteamv2.azurewebsites.net/api/Notifications/getnotificationbyconsultant?id=${id}'),
           headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer $token"
@@ -62,7 +62,7 @@ class NotificationController extends GetxController {
 
       final response = await http.put(
           Uri.parse(
-                  'https://psycteam.azurewebsites.net/api/Notifications/seennoti')
+                  'https://psycteamv2.azurewebsites.net/api/Notifications/seennoti')
               .replace(queryParameters: queryparam),
           headers: {
             "Content-Type": "application/json",
@@ -89,7 +89,7 @@ class NotificationController extends GetxController {
 
       final response = await http.put(
           Uri.parse(
-                  'https://psycteam.azurewebsites.net/api/Notifications/hiddennoti')
+                  'https://psycteamv2.azurewebsites.net/api/Notifications/hiddennoti')
               .replace(queryParameters: queryparam),
           headers: {
             "Content-Type": "application/json",
@@ -117,7 +117,7 @@ class NotificationController extends GetxController {
 
       final response = await http.get(
           Uri.parse(
-              'https://psycteam.azurewebsites.net/api/Notifications/countnotibyconsultant?id=${id}'),
+              'https://psycteamv2.azurewebsites.net/api/Notifications/countnotibyconsultant?id=${id}'),
           headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer $token"
@@ -141,7 +141,7 @@ class NotificationController extends GetxController {
 
       final response = await http.post(
           Uri.parse(
-              'https://psycteam.azurewebsites.net/api/Notifications/refreshnotibyconsultant?id=${id}'),
+              'https://psycteamv2.azurewebsites.net/api/Notifications/refreshnotibyconsultant?id=${id}'),
           headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer $token"

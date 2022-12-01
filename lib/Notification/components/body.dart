@@ -42,16 +42,14 @@ class _BodyState extends State<Body> {
         title: Text("Thông báo"),
         backgroundColor: Colors.purple[200],
       ),
-      body: SingleChildScrollView(
-        child: Column(children: [_blockNoti()]),
-      ),
+      body: Column(children: [_blockNoti()]),
     );
   }
 
-  Container _blockNoti() {
+  Expanded _blockNoti() {
     print('chạy lại đi');
     timeStart();
-    return Container(
+    return Expanded(
       // padding: const EdgeInsets.all(5.0),
       // child: GetBuilder<NotificationController>(
       //   builder: (controller) => (controller.isLoading.isTrue)
@@ -66,7 +64,7 @@ class _BodyState extends State<Body> {
       //               itemCount: controller.listNotification.length,
       //             ),
       // ),
-      padding: const EdgeInsets.all(5.0),
+      // padding: const EdgeInsets.all(5.0),
       child: GetBuilder<NotificationController>(
         builder: (controller) => (controller.isLoading.isTrue)
             ? const Center(child: CircularProgressIndicator())
