@@ -8,7 +8,10 @@ import 'package:intl/intl.dart';
 import 'package:psychological_counseling/Appointment/detail_screen.dart';
 import 'package:psychological_counseling/History/historydetail_screen.dart';
 import 'package:psychological_counseling/Schedule/schedule_screen.dart';
+import 'package:psychological_counseling/components/bottombar_consultant.dart';
 import 'package:psychological_counseling/controller/appointment.dart';
+import 'package:psychological_counseling/controller/bottom_navigation.dart';
+import 'package:psychological_counseling/controller/dashboard.dart';
 import 'package:psychological_counseling/model/detailbooking.dart';
 import 'package:psychological_counseling/model/detailhistory.dart';
 import 'package:psychological_counseling/model/slotbooking.dart';
@@ -20,6 +23,8 @@ class SlotbookingController extends GetxController {
   late List<DetailBooking> listbookingDetail = <DetailBooking>[].obs;
   late List<DetailHistory> listhistoryDetail = <DetailHistory>[].obs;
   final appointmentController = Get.find<AppointmentController>();
+  final bottomNavigationController = Get.find<BottomNavigationController>();
+  final _dashboard = Get.find<DashboardController>();
 
   var formatdate = DateFormat('yyyy-MM-dd');
 
@@ -61,7 +66,6 @@ class SlotbookingController extends GetxController {
   Future<void> addSlotBooking(
     String dateSlot,
     String timeStart,
-    TextEditingController crab,
     // TextEditingController? price,
   ) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -72,7 +76,6 @@ class SlotbookingController extends GetxController {
         'timeStart': timeStart,
         'dateSlot': dateSlot,
         'consultantId': id,
-        'price': crab.text,
         // "price": price?.text,
       });
       print(body);
@@ -85,13 +88,12 @@ class SlotbookingController extends GetxController {
       var jsonString = json.decode(response.body);
       if (response.statusCode == 200) {
         getListSlotBooking(dateSlot);
-        Get.to(ScheduleScreen());
         Fluttertoast.showToast(
             msg: "${jsonString['message']}",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 5,
-            backgroundColor: Colors.red.shade300,
+            backgroundColor: Colors.green,
             textColor: Colors.black,
             fontSize: 16.0);
       } else {
@@ -109,7 +111,7 @@ class SlotbookingController extends GetxController {
     }
   }
 
-  Future<void> confirmVideocall(int? id) async {
+  Future<void> confirmLive(int? id) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? token = prefs.getString('token');
     try {
@@ -128,9 +130,63 @@ class SlotbookingController extends GetxController {
       print("api 2 len");
       if (response.statusCode == 200) {
         print("cuộc gọi thành công");
+
+        bottomNavigationController.changeTabIndex(1);
+        Get.to(NavigationPage());
+
+        Fluttertoast.showToast(
+            msg: "Cuộc gọi đã kết thúc",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Color.fromARGB(255, 40, 165, 9),
+            textColor: Colors.black,
+            fontSize: 16.0);
+      } else {
+        print("fail regis");
+        Fluttertoast.showToast(
+            msg: "kết thúc không thành công",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red.shade200,
+            textColor: Colors.black,
+            fontSize: 16.0);
+      }
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> confirmVideocall(int? id) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    try {
+      print(id);
+      final Map<String, String> queryparam = {
+        'id': id.toString(),
+      };
+      final response = await http.put(
+          Uri.parse(
+                  "https://psycteamv2.azurewebsites.net/api/SlotBookings/confirmvideocall")
+              .replace(queryParameters: queryparam),
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $token"
+          });
+
+      print("api len");
+      print(response.statusCode);
+
+      print("api 2 len");
+      if (response.statusCode == 200) {
+        print("cuộc gọi thành công");
         // Get.to(VerifyEmailScreen());
         appointmentController
             .getListHistoryAppointment(formatdate.format(DateTime.now()));
+        bottomNavigationController.changeTabIndex(3);
+        _dashboard.getDashboard();
+        Get.to(NavigationPage());
         print(formatdate.format(DateTime.now()));
         Fluttertoast.showToast(
             msg: "Cuộc gọi đã kết thúc",

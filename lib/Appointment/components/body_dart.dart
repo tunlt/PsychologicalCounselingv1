@@ -40,7 +40,7 @@ class _Body extends State<Body> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Cuộc hẹn sắp tới"),
-        backgroundColor: Colors.purple,
+        backgroundColor: Color(0xff4f0080),
       ),
       body: Column(
         children: [

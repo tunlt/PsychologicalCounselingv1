@@ -41,14 +41,6 @@ class _BodyLiveState extends State<BodyLive> {
   bool isMore = false;
   int minute = 0;
 
-  // void timerStart() {
-  //   _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-  //     setState(() {
-  //       DateTime.now().second;
-  //     });
-  //   });
-  // }
-  final timer;
   final slotbookingcontroller = Get.find<SlotbookingController>();
   @override
   void initState() {
@@ -65,11 +57,11 @@ class _BodyLiveState extends State<BodyLive> {
     // DateTime? timestart = DateTime.now();
     minute = (timeNoti.hour * 60 + timeNoti.minute) -
         (timestart.hour * 60 + timestart.minute);
-    timer = Timer(Duration(minutes: 1), () {
-      setState(() {
-        _showDialog();
-      });
-    });
+    // final timer = Timer(Duration(minutes: 1), () {
+    //   setState(() {
+    //     _showDialog();
+    //   });
+    // });
   }
 
   @override
@@ -234,7 +226,8 @@ class _BodyLiveState extends State<BodyLive> {
                                       onPressed: () {
                                         _engine.leaveChannel();
                                         slotbookingcontroller
-                                            .confirmVideocall(widget.id);
+                                            .confirmLive(widget.id);
+                                        Navigator.pop(context);
                                       },
                                       child: const Text(
                                         'Đồng ý',
@@ -293,40 +286,6 @@ class _BodyLiveState extends State<BodyLive> {
     );
   }
 
-  // Widget _info() {
-  //   return Container(
-  //     alignment: Alignment.topLeft,
-  //     padding: const EdgeInsets.symmetric(vertical: 48),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.end,
-  //       children: <Widget>[
-  //         RawMaterialButton(
-  //           onPressed: () {
-  //             setState(() {
-  //               IconButton(
-  //                 onPressed: () {
-  //                   setState(() {
-  //                     viewPanel = !viewPanel;
-  //                   });
-  //                 },
-  //                 icon: const Icon(Icons.info_outline),
-  //               );
-  //             });
-  //           },
-  //         ),
-
-  //         // RawMaterialButton(
-  //         //   onPressed: () {},
-  //         //   child: Icon(
-  //         //     banChat ? Icons.message_sharp : Icons.messenger,
-  //         //     color: banChat ? Colors.blueAccent : Colors.white,
-  //         //   ),
-  //         // )
-  //       ],
-  //     ),
-  //   );
-  // }
-
   Widget _panel() {
     return Visibility(
       visible: viewPanel,
@@ -372,23 +331,9 @@ class _BodyLiveState extends State<BodyLive> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("text"),
-      //   actions: [
-      //     IconButton(
-      //       onPressed: () {
-      //         setState(() {
-      //           viewPanel = !viewPanel;
-      //         });
-      //       },
-      //       icon: const Icon(Icons.info_outline),
-      //     )
-      //   ],
-      // ),
       body: Center(
         child: Stack(
           children: <Widget>[
-            // _info(),
             _viewRows(),
             _panel(),
             _toolbar(),
@@ -398,69 +343,69 @@ class _BodyLiveState extends State<BodyLive> {
     );
   }
 
-  Future _showDialog() {
-    DateTime? timebegin =
-        DateFormat("yyyy-MM-dd HH:mm").parse('${DateTime.now()}');
-    DateTime? finish = widget.timeEnd!;
-    int? minute;
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-              title: const Text(
-                'Thông báo',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              content: Text('Còn 5 phút trước khi buổi live kết thúc '),
-              actions: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(right: 1),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ElevatedButton(
-                            onPressed: () {
-                              // timerStart(minute = finish.hour +
-                              //     finish.minute -
-                              //     timebegin.hour -
-                              //     timebegin.minute);
-                              timerStart(1);
-                              Navigator.pop(context, 'Đồng ý');
-                            },
-                            child: const Text(
-                              'Đồng ý',
-                              style: TextStyle(color: Colors.white),
-                            )),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 1),
-                      child: ElevatedButton(
-                          onPressed: () {
-                            //   timerStart(finish.hour +
-                            //       finish.minute -
-                            //       timebegin.hour -
-                            //       timebegin.minute +
-                            //       5);
-                            timerStart(1);
-                            Navigator.pop(context, 'Gia hạn thêm 5 phút');
-                          },
-                          child: const Text(
-                            'Gia hạn thêm 5 phút',
-                            style: TextStyle(color: Colors.white),
-                          )),
-                    ),
-                  ],
-                ),
-              ],
-            ));
-  }
+  // Future _showDialog() {
+  //   DateTime? timebegin =
+  //       DateFormat("yyyy-MM-dd HH:mm").parse('${DateTime.now()}');
+  //   DateTime? finish = widget.timeEnd!;
+  //   int? minute;
+  //   return showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) => AlertDialog(
+  //             title: const Text(
+  //               'Thông báo',
+  //               style: TextStyle(fontWeight: FontWeight.bold),
+  //             ),
+  //             content: Text('Còn 5 phút trước khi buổi live kết thúc '),
+  //             actions: <Widget>[
+  //               Row(
+  //                 mainAxisAlignment: MainAxisAlignment.center,
+  //                 children: [
+  //                   Padding(
+  //                     padding: EdgeInsets.only(right: 1),
+  //                     child: Padding(
+  //                       padding: const EdgeInsets.all(8.0),
+  //                       child: ElevatedButton(
+  //                           onPressed: () {
+  //                             // timerStart(minute = finish.hour +
+  //                             //     finish.minute -
+  //                             //     timebegin.hour -
+  //                             //     timebegin.minute);
+  //                             timerStart(1);
+  //                             Navigator.pop(context, 'Đồng ý');
+  //                           },
+  //                           child: const Text(
+  //                             'Đồng ý',
+  //                             style: TextStyle(color: Colors.white),
+  //                           )),
+  //                     ),
+  //                   ),
+  //                   Padding(
+  //                     padding: EdgeInsets.only(left: 1),
+  //                     child: ElevatedButton(
+  //                         onPressed: () {
+  //                           //   timerStart(finish.hour +
+  //                           //       finish.minute -
+  //                           //       timebegin.hour -
+  //                           //       timebegin.minute +
+  //                           //       5);
+  //                           timerStart(1);
+  //                           Navigator.pop(context, 'Gia hạn thêm 5 phút');
+  //                         },
+  //                         child: const Text(
+  //                           'Gia hạn thêm 5 phút',
+  //                           style: TextStyle(color: Colors.white),
+  //                         )),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ],
+  //           ));
+  // }
 
-  void timerStart(int minute) {
-    final timer = Timer(Duration(minutes: minute), () {
-      _engine.leaveChannel();
-      slotbookingcontroller.confirmVideocall(widget.id);
-    });
-  }
+  // void timerStart(int minute) {
+  //   final timer = Timer(Duration(minutes: minute), () {
+  //     _engine.leaveChannel();
+  //     slotbookingcontroller.confirmLive(widget.id);
+  //   });
+  // }
 }

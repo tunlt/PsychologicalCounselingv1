@@ -38,9 +38,8 @@ class _BodyState extends State<Body> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () {}),
         title: Text("Thông báo"),
-        backgroundColor: Colors.purple[200],
+        backgroundColor: Color(0xff4f0080),
       ),
       body: Column(children: [_blockNoti()]),
     );
@@ -50,33 +49,21 @@ class _BodyState extends State<Body> {
     print('chạy lại đi');
     timeStart();
     return Expanded(
-      // padding: const EdgeInsets.all(5.0),
-      // child: GetBuilder<NotificationController>(
-      //   builder: (controller) => (controller.isLoading.isTrue)
-      //       ? const Center(child: CircularProgressIndicator())
-      //       : controller.listNotification.isEmpty
-      //           ? const Center(child: Text('Bạn chưa có thông báo nào !'))
-      //           : ListView.builder(
-      //               shrinkWrap: true,
-      //               scrollDirection: Axis.vertical,
-      //               itemBuilder: (ctx, i) =>
-      //                   BlockNotification(controller.listNotification[i]),
-      //               itemCount: controller.listNotification.length,
-      //             ),
-      // ),
-      // padding: const EdgeInsets.all(5.0),
-      child: GetBuilder<NotificationController>(
-        builder: (controller) => (controller.isLoading.isTrue)
-            ? const Center(child: CircularProgressIndicator())
-            : controller.listNotification.isEmpty
-                ? const Center(child: Text('Bạn chưa có thông báo nào !'))
-                : ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (ctx, i) =>
-                        BlockNotification(controller.listNotification[i]),
-                    itemCount: controller.listNotification.length,
-                  ),
+      child: Padding(
+        padding: EdgeInsets.all(2),
+        child: GetBuilder<NotificationController>(
+          builder: (controller) => (controller.isLoading.isTrue)
+              ? const Center(child: CircularProgressIndicator())
+              : controller.listNotification.isEmpty
+                  ? const Center(child: Text('Bạn chưa có thông báo nào !'))
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (ctx, i) =>
+                          BlockNotification(controller.listNotification[i]),
+                      itemCount: controller.listNotification.length,
+                    ),
+        ),
       ),
     );
   }

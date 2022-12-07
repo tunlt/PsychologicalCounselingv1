@@ -15,7 +15,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Body(),
-      bottomNavigationBar: BottomBarPsycApp(selected: "History"),
+      // bottomNavigationBar: BottomBarPsycApp(selected: "History"),
     );
   }
 }

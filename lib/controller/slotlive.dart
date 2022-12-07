@@ -6,12 +6,15 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:psychological_counseling/Live.dart/live_screen.dart';
+import 'package:psychological_counseling/controller/slot.dart';
+import 'package:psychological_counseling/model/appointment.dart';
 import 'package:psychological_counseling/model/slotlivestream.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SlotLiveController extends GetxController {
   var isLoading = true.obs;
   late List<SlotLive> listSlotLive = <SlotLive>[].obs;
+  final slotbookingController = Get.find<SlotbookingController>();
 
   var formatdate = DateFormat('yyyy-MM-dd');
 
@@ -39,7 +42,6 @@ class SlotLiveController extends GetxController {
         if (slotlive.data != null) {
           listSlotLive = slotlive.data as List<SlotLive>;
           print("o day co chay slotlive");
-          Get.to(LiveScreen());
           update();
         }
       }
@@ -102,6 +104,7 @@ class SlotLiveController extends GetxController {
   }
 
   Future<void> CancelSlotLive(
+    bool islive,
     int idSlot,
     String dateSlot,
   ) async {
@@ -127,75 +130,52 @@ class SlotLiveController extends GetxController {
       print(response.statusCode);
       if (response.statusCode == 200) {
         print("cancel chạy");
-        // Get.to(VerifyEmailScreen());
-        getListSlotLive(dateSlot);
-        Get.to(LiveScreen());
-        Fluttertoast.showToast(
-            msg: "Hủy thành công",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 3,
-            backgroundColor: Color.fromARGB(255, 108, 219, 113),
-            textColor: Colors.black,
-            fontSize: 16.0);
+        if (islive == true) {
+          getListSlotLive(dateSlot);
+          Fluttertoast.showToast(
+              msg: "Hủy thành công",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 3,
+              backgroundColor: Color.fromARGB(255, 108, 219, 113),
+              textColor: Colors.black,
+              fontSize: 16.0);
+        } else {
+          slotbookingController.getListSlotBooking(dateSlot);
+          Fluttertoast.showToast(
+              msg: "Xóa thành công",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 3,
+              backgroundColor: Color.fromARGB(255, 108, 219, 113),
+              textColor: Colors.black,
+              fontSize: 16.0);
+        }
       } else {
         // print("fail regis");
-        Fluttertoast.showToast(
-            msg: "Hủy thất bại",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red.shade200,
-            textColor: Colors.black,
-            fontSize: 16.0);
+
+        if (islive == true) {
+          Fluttertoast.showToast(
+              msg: "Hủy thất bại",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red.shade200,
+              textColor: Colors.black,
+              fontSize: 16.0);
+        } else {
+          Fluttertoast.showToast(
+              msg: "Xóa thất bại",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red.shade200,
+              textColor: Colors.black,
+              fontSize: 16.0);
+        }
       }
     } catch (error) {
       print(error);
     }
   }
-  // Future<void> confirmVideocall(int? id) async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   final String? token = prefs.getString('token');
-  //   try {
-  //     final response = await http.put(
-  //         Uri.parse(
-  //             "https://psycteam.azurewebsites.net/api/SlotBookings/confirmvideocall?id=${id}"),
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           "Authorization": "Bearer $token"
-  //         });
-
-  //     print("api len");
-  //     print(response.statusCode);
-
-  //     print("api 2 len");
-  //     if (response.statusCode == 200) {
-  //       print("cuộc gọi thành công");
-  //       // Get.to(VerifyEmailScreen());
-  //       appointmentController
-  //           .getListHistoryAppointment(formatdate.format(DateTime.now()));
-  //       print(formatdate.format(DateTime.now()));
-  //       Fluttertoast.showToast(
-  //           msg: "Cuộc gọi đã kết thúc",
-  //           toastLength: Toast.LENGTH_SHORT,
-  //           gravity: ToastGravity.BOTTOM,
-  //           timeInSecForIosWeb: 1,
-  //           backgroundColor: Color.fromARGB(255, 40, 165, 9),
-  //           textColor: Colors.black,
-  //           fontSize: 16.0);
-  //     } else {
-  //       print("fail regis");
-  //       Fluttertoast.showToast(
-  //           msg: "kết thúc không thành công",
-  //           toastLength: Toast.LENGTH_SHORT,
-  //           gravity: ToastGravity.BOTTOM,
-  //           timeInSecForIosWeb: 1,
-  //           backgroundColor: Colors.red.shade200,
-  //           textColor: Colors.black,
-  //           fontSize: 16.0);
-  //     }
-  //   } catch (error) {
-  //     print(error);
-  //   }
-  // }
 }

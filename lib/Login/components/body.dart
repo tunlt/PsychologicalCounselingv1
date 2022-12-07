@@ -29,6 +29,8 @@ class _BodyState extends State<Body> {
         .then((value) => loginController.setTokenDevice(value!));
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   Future<bool> _onWillPop() async {
     return (await showDialog(
           context: context,
@@ -41,7 +43,9 @@ class _BodyState extends State<Body> {
                 child: new Text('Không'),
               ),
               TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
                 child: new Text('Có'),
               ),
             ],
@@ -104,51 +108,157 @@ class _BodyState extends State<Body> {
                   width: double.infinity,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 70,
-                        ),
-                        _logo(),
-                        const SizedBox(
-                          height: 50,
-                        ),
-                        _loginLabel(),
-                        const SizedBox(
-                          height: 50,
-                        ),
-                        _labelTextInput(
-                            "Tài khoản", "Tên đăng nhập", false, username),
-                        const SizedBox(
-                          height: 50,
-                        ),
-                        _labelTextInput(
-                            "Mật khẩu", "Nhập mật khẩu", true, password),
-                        const SizedBox(
-                          height: 3,
-                        ),
-                        _forgetPass(),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        _loading(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        _loginBtn(),
-                        const SizedBox(
-                          height: 50,
-                        ),
-                        _signUpLabel(
-                            "Bạn chưa có tài khoản?", const Color(0xff909090)),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        _signUpButton("Đăng kí", const Color(0xff164276)),
-                        const SizedBox(
-                          height: 25,
-                        ),
-                      ],
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 70,
+                          ),
+                          _logo(),
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          _loginLabel(),
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Tài Khoản",
+                                style: GoogleFonts.josefinSans(
+                                  textStyle: const TextStyle(
+                                    color: Color(0xff8fa1b6),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                              TextFormField(
+                                controller: username,
+                                obscureText: false,
+                                cursorColor: Colors.red,
+                                decoration: InputDecoration(
+                                  hintText: "Tên đăng nhập",
+                                  hintStyle: GoogleFonts.josefinSans(
+                                    textStyle: const TextStyle(
+                                      color: Color(0xffc5d2e1),
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  enabledBorder: const UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Color(0xffdfe8f3)),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Vui lòng nhập tên đăng nhập';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Mật khẩu",
+                                style: GoogleFonts.josefinSans(
+                                  textStyle: const TextStyle(
+                                    color: Color(0xff8fa1b6),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                              TextFormField(
+                                controller: password,
+                                obscureText: true,
+                                cursorColor: Colors.red,
+                                decoration: InputDecoration(
+                                  hintText: "Nhập mật khẩu",
+                                  hintStyle: GoogleFonts.josefinSans(
+                                    textStyle: const TextStyle(
+                                      color: Color(0xffc5d2e1),
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  enabledBorder: const UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Color(0xffdfe8f3)),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Vui lòng nhập mật khẩu';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                          _forgetPass(),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          _loading(),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            width: double.infinity,
+                            height: 60,
+                            decoration: const BoxDecoration(
+                              color: Color(0xff008fff),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                            ),
+                            child: TextButton(
+                              onPressed: () => {
+                                if (_formKey.currentState!.validate())
+                                  {
+                                    loginController.LoginConsultant(
+                                        username, password)
+                                  }
+                              },
+                              child: Text(
+                                "Đăng nhập",
+                                style: GoogleFonts.josefinSans(
+                                  textStyle: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 24,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          _signUpLabel("Bạn chưa có tài khoản?",
+                              const Color(0xff909090)),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          _signUpButton("Đăng kí", const Color(0xff164276)),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -198,30 +308,6 @@ Widget _loading() {
           child: loginController.isLoading.isFalse
               ? CircularProgressIndicator()
               : Container())));
-}
-
-Widget _loginBtn() {
-  return Container(
-    width: double.infinity,
-    height: 60,
-    decoration: const BoxDecoration(
-      color: Color(0xff008fff),
-      borderRadius: BorderRadius.all(Radius.circular(10)),
-    ),
-    child: TextButton(
-      onPressed: () => {loginController.LoginConsultant(username, password)},
-      child: Text(
-        "Đăng nhập",
-        style: GoogleFonts.josefinSans(
-          textStyle: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w800,
-            fontSize: 24,
-          ),
-        ),
-      ),
-    ),
-  );
 }
 
 Widget _labelTextInput(String label, String hintText, bool isPassword,

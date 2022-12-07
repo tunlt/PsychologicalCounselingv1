@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:psychological_counseling/Appointment/detail_screen.dart';
 import 'package:psychological_counseling/History/components/body.dart';
 import 'package:psychological_counseling/Schedule/components/body.dart';
 import 'package:psychological_counseling/controller/roomslotbooking.dart';
@@ -98,7 +97,7 @@ class BlockUpcoming extends StatelessWidget {
                                 ),
                                 Text(
                                   // "Date: " + service.spa.address,
-                                  "Giá: " + "${appointment.price}" + " cua",
+                                  "Giá: " + "${appointment.price}" + " Gem",
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 const SizedBox(
@@ -111,55 +110,44 @@ class BlockUpcoming extends StatelessWidget {
                                     height: 22,
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        // print(timeStart);
-                                        // print(timeEnd);
-                                        // if (_convertStringToDateTime2(
-                                        //         formatdate.format(
-                                        //                 appointment.dateSlot!) +
-                                        //             ' ' +
-                                        //             appointment.timeStart!)!
-                                        //     .subtract(Duration(minutes: 5))
-                                        //     .isBefore(DateTime.now())) {
-                                        //   roomslotbookingcontroller
-                                        //       .getRoomSlotBooking(
-                                        //           appointment.id,
-                                        //           _convertStringToDateTime2(
-                                        //               formatdate.format(
-                                        //                       appointment
-                                        //                           .dateSlot!) +
-                                        //                   ' ' +
-                                        //                   appointment
-                                        //                       .timeEnd!));
-                                        // } else {
-                                        //   // ignore: prefer_const_constructors
-                                        //   showDialog(
-                                        //       context: context,
-                                        //       builder: (BuildContext context) =>
-                                        //           AlertDialog(
-                                        //             title:
-                                        //                 const Text('Thông báo'),
-                                        //             content: Text(
-                                        //                 'Bạn chỉ được tham gia phòng hợp trước 5 phút( thời gian có thể bắt đầu vào phòng: ${format.format(timeStart.subtract(Duration(minutes: 5)))})'),
-                                        //             actions: <Widget>[
-                                        //               TextButton(
-                                        //                   onPressed: () =>
-                                        //                       Navigator.pop(
-                                        //                           context,
-                                        //                           'Đồng ý'),
-                                        //                   child: const Text(
-                                        //                       'Đồng ý'))
-                                        //             ],
-                                        //           ));
-                                        // }
-                                        roomslotbookingcontroller
-                                            .getRoomSlotBooking(
-                                                appointment.id,
-                                                _convertStringToDateTime2(
-                                                    formatdate.format(
-                                                            appointment
-                                                                .dateSlot!) +
-                                                        ' ' +
-                                                        appointment.timeEnd!));
+                                        if (_convertStringToDateTime2(
+                                                formatdate.format(
+                                                        appointment.dateSlot!) +
+                                                    ' ' +
+                                                    appointment.timeStart!)!
+                                            .subtract(Duration(minutes: 5))
+                                            .isBefore(DateTime.now())) {
+                                          roomslotbookingcontroller
+                                              .getRoomSlotBooking(
+                                                  appointment.id,
+                                                  _convertStringToDateTime2(
+                                                      formatdate.format(
+                                                              appointment
+                                                                  .dateSlot!) +
+                                                          ' ' +
+                                                          appointment
+                                                              .timeEnd!));
+                                        } else {
+                                          // ignore: prefer_const_constructors
+                                          showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  AlertDialog(
+                                                    title:
+                                                        const Text('Thông báo'),
+                                                    content: Text(
+                                                        'Bạn chỉ được tham gia phòng trước 5 phút( thời gian có thể bắt đầu vào phòng: ${format.format(timeStart.subtract(Duration(minutes: 5)))})'),
+                                                    actions: <Widget>[
+                                                      TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  context,
+                                                                  'Đồng ý'),
+                                                          child: const Text(
+                                                              'Đồng ý'))
+                                                    ],
+                                                  ));
+                                        }
                                       },
                                       style: ButtonStyle(
                                           backgroundColor:
@@ -331,7 +319,7 @@ class BlockUpcoming extends StatelessWidget {
     DateTime? _dateTime;
     try {
       _dateTime = new DateFormat('yyyy-MM-dd HH:mm').parse(time);
-      print(_dateTime);
+      // print(_dateTime);
     } catch (e) {}
     return _dateTime;
   }

@@ -7,12 +7,17 @@ import 'package:http/http.dart' as http;
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:psychological_counseling/Home/home_screen.dart';
 import 'package:psychological_counseling/Login/login_screen.dart';
+import 'package:psychological_counseling/components/bottombar_consultant.dart';
+import 'package:psychological_counseling/controller/bottom_navigation.dart';
 import 'package:psychological_counseling/model/consultant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
   var isLoading = true.obs;
   late List<Consultant> consultantdetail = <Consultant>[].obs;
+
+  final BottomNavigationController _narbarController =
+      Get.find<BottomNavigationController>();
   String? token;
   String tokenDevice = "";
 
@@ -43,13 +48,14 @@ class LoginController extends GetxController {
         var token = jsonString['jwttoken'];
         prefs.setInt('id', consultantId);
         prefs.setString('token', token);
+        update();
         print(consultantId);
         print(token);
-        Get.to(HomeScreenConsultant());
+        Get.to(NavigationPage());
       } else {
         print("fail login");
         Fluttertoast.showToast(
-            msg: "login fail",
+            msg: "Tên đăng nhập hoặc mật khẩu không đúng",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
@@ -72,8 +78,8 @@ class LoginController extends GetxController {
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.clear();
-    // Get.reset();
-    // Get.to(LoginScreen());
+    _narbarController.changeTabIndex(0);
     Get.to(LoginScreen());
+    update();
   }
 }

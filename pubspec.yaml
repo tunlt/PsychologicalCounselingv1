@@ -56,10 +56,13 @@ dependencies:
   firebase_messaging: ^13.1.0
   firebase_core: ^1.24.0
   firebase_analytics: ^9.3.8
+  skeletons: ^0.0.3
+  dropdown_button2: ^1.9.2
 
 
   modal_bottom_sheet: ^2.1.2
   badges: ^2.0.3
+  url_launcher: ^6.1.7
 
 dev_dependencies:
   flutter_test:

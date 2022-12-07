@@ -4,8 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:psychological_counseling/Appointment/appointment_screen.dart';
 import 'package:psychological_counseling/History/history_screen.dart';
+import 'package:psychological_counseling/Home/home_screen.dart';
+import 'package:psychological_counseling/components/bottombar_consultant.dart';
+import 'package:psychological_counseling/controller/bottom_navigation.dart';
 import 'package:psychological_counseling/model/appointment.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,6 +17,10 @@ class AppointmentController extends GetxController {
   var isLoading = true.obs;
   late List<Appointment> listUpcommingAppointment = <Appointment>[].obs;
   late List<Appointment> listHistoryAppointment = <Appointment>[].obs;
+
+  var formatdate = DateFormat('yyyy-MM-dd');
+
+  final bottomcontroller = Get.put(BottomNavigationController());
 
   Future<List<Appointment>> getListUpcommingAppointment(
     String date,
@@ -39,7 +47,7 @@ class AppointmentController extends GetxController {
           listUpcommingAppointment = appointment.data as List<Appointment>;
           print("o day co chay appointment");
           update();
-          Get.to(AppointmentScreen());
+          // Get.to(NavigationPage());
         }
       }
     } catch (error) {
@@ -76,7 +84,6 @@ class AppointmentController extends GetxController {
           listHistoryAppointment = appointment.data as List<Appointment>;
           print("o day co chay history");
           update();
-          Get.to(HistoryScreen());
         }
       }
     } catch (error) {
@@ -117,7 +124,6 @@ class AppointmentController extends GetxController {
         print("cancel chạy");
         // Get.to(VerifyEmailScreen());
         getListUpcommingAppointment(dateSlot);
-        Get.to(AppointmentScreen());
         Fluttertoast.showToast(
             msg: "Hủy thành công",
             toastLength: Toast.LENGTH_SHORT,

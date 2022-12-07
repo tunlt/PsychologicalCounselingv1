@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:psychological_counseling/Live.dart/components/block_slotlive.dart';
 import 'package:psychological_counseling/controller/slot.dart';
@@ -69,65 +70,59 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Lịch live của bạn'),
-          backgroundColor: Colors.purple,
-        ),
-        body: SingleChildScrollView(
-          child: Column(children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Card(
-                child: TableCalendar(
-                  // locale: 'us',
-                  focusedDay: DateTime.now(),
-                  firstDay: DateTime.now(),
-                  // firstDay: DateTime.now().subtract(Duration(days: 7)),
-                  lastDay: DateTime.now().add(Duration(days: 7)),
-                  selectedDayPredicate: (day) {
-                    return isSameDay(_selectedDay, day);
-                  },
-                  onDaySelected: (selectedDay, focusedDay) {
-                    setState(() {
-                      _selectedDay = selectedDay;
-                      _focusedDay = focusedDay;
-                      slotLiveController.getListSlotLive(format.format(
-                          _focusedDay)); // update `_focusedDay` here as well
-                      print(format.format(_focusedDay));
-                    });
-                  },
-                  calendarFormat: _calendarFormat,
-                  onFormatChanged: (format) {
-                    setState(() {
-                      _calendarFormat = format;
-                    });
-                  },
-                  onPageChanged: (focusedDay) {
+        body: Column(children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Card(
+              child: TableCalendar(
+                // locale: 'us',
+                focusedDay: DateTime.now(),
+                firstDay: DateTime.now(),
+                // firstDay: DateTime.now().subtract(Duration(days: 7)),
+                lastDay: DateTime.now().add(Duration(days: 7)),
+                selectedDayPredicate: (day) {
+                  return isSameDay(_selectedDay, day);
+                },
+                onDaySelected: (selectedDay, focusedDay) {
+                  setState(() {
+                    _selectedDay = selectedDay;
                     _focusedDay = focusedDay;
-                  },
-                ),
+                    slotLiveController.getListSlotLive(format.format(
+                        _focusedDay)); // update `_focusedDay` here as well
+                    print(format.format(_focusedDay));
+                  });
+                },
+                calendarFormat: _calendarFormat,
+                onFormatChanged: (format) {
+                  setState(() {
+                    _calendarFormat = format;
+                  });
+                },
+                onPageChanged: (focusedDay) {
+                  _focusedDay = focusedDay;
+                },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: GetBuilder<SlotLiveController>(
-                builder: (controller) => (controller.isLoading.isTrue)
-                    ? const Center(child: CircularProgressIndicator())
-                    : controller.listSlotLive.isEmpty
-                        ? const Center(
-                            child: Text('Bạn chưa có lịch cho ngày này !'))
-                        : ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: (ctx, i) =>
-                                BlockSlotLive(controller.listSlotLive[i]),
-                            itemCount: controller.listSlotLive.length,
-                          ),
-              ),
-            )
-          ]),
-        ),
+          ),
+          Expanded(
+            child: GetBuilder<SlotLiveController>(
+              builder: (controller) => (controller.isLoading.isTrue)
+                  ? const Center(child: CircularProgressIndicator())
+                  : controller.listSlotLive.isEmpty
+                      ? const Center(
+                          child: Text('Bạn chưa có lịch cho ngày này !'))
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (ctx, i) =>
+                              BlockSlotLive(controller.listSlotLive[i]),
+                          itemCount: controller.listSlotLive.length,
+                        ),
+            ),
+          )
+        ]),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.pink,
           onPressed: () async {
             showDialog(
                 context: context,
@@ -255,7 +250,7 @@ class _BodyState extends State<Body> {
                                       },
                                       label: Text(
                                         'Thêm Slot',
-                                        style: TextStyle(fontSize: 14),
+                                        style: GoogleFonts.asap(),
                                       ),
                                     ),
                                   ),

@@ -36,6 +36,7 @@ class _BodyCallState extends State<BodyCall> {
   bool muted = false;
   bool viewPanel = false;
   bool banChat = false;
+  bool banVideo = false;
   late RtcEngine _engine;
 
   bool isMore = false;
@@ -100,6 +101,14 @@ class _BodyCallState extends State<BodyCall> {
     await _engine.joinChannel(widget.token!, widget.chanelName!, null, 0);
   }
 
+  // List<Widget> _getRenderViews() {
+  //   final List<StatefulWidget> list = [];
+  //   list.add(rtc_local_view.SurfaceView());
+  //   _user
+  //       .forEach((int uid) => list.add(rtc_remote_view.SurfaceView(uid: uid)));
+  //   return list;
+  // }
+
   void _addAgoraEventHandlers() {
     _engine.setEventHandler(RtcEngineEventHandler(
       error: (code) {
@@ -162,6 +171,64 @@ class _BodyCallState extends State<BodyCall> {
     // if (widget.role == ClientRole.Broadcaster) {}
     // return;
   }
+
+  // Widget _videoView(
+  //   List<Widget> views,
+  // ) {
+  //   if (banVideo) {
+  //     return Expanded(
+  //         child: Row(
+  //       children: [ShowAvatar(width: 20, height: 20)],
+  //     ));
+  //   }
+  //   return Expanded(
+  //       child: Row(
+  //     children: [],
+  //   ));
+  // }
+
+  // Widget _viewRows() {
+  //   // if (widget.role == ClientRole.Broadcaster) return const SizedBox();
+  //   return Container(
+  //     child: Stack(
+  //       children: [
+  //         Column(
+  //           children: <Widget>[
+  //             !banChat
+  //                 // ? _expandedVideoRow()
+
+  //                 ? ShowAvatar(
+  //                     height: 90,
+  //                     width: 120,
+  //                   )
+  //                 : ShowAvatar(
+  //                     width: 150,
+  //                     height: 150,
+  //                   )
+  //           ],
+  //         ),
+  //         Positioned.fill(
+  //           top: 10,
+  //           child: Align(
+  //             alignment: !banChat ? Alignment.center : Alignment.topCenter,
+  //             child: Container(
+  //               width: MediaQuery.of(context).size.width * 0.8,
+  //               child: Text(
+  //                 'Đang kết nối với bác sĩ tư vấn của bạn...',
+  //                 softWrap: true,
+  //                 style: TextStyle(
+  //                   fontSize: 18,
+  //                   color: Colors.white70,
+  //                 ),
+  //                 textAlign: TextAlign.center,
+  //               ),
+  //             ),
+  //           ),
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 
   List<Widget> _getRenderView() {
     final List<StatefulWidget> list = [];
@@ -279,6 +346,22 @@ class _BodyCallState extends State<BodyCall> {
             fillColor: Colors.white,
             padding: const EdgeInsets.all(12),
           ),
+
+          //test mutecamera
+          RawMaterialButton(
+            onPressed: () {
+              setState(() {
+                banVideo = !banVideo;
+              });
+              _engine.enableLocalVideo(!banVideo);
+            },
+            child: Icon(banVideo ? Icons.camera : Icons.camera_alt,
+                color: banVideo ? Colors.white : Colors.blueAccent, size: 20.0),
+            shape: const CircleBorder(),
+            elevation: 2.0,
+            fillColor: banVideo ? Colors.blueAccent : Colors.white,
+            padding: const EdgeInsets.all(12),
+          ),
           // RawMaterialButton(
           //   onPressed: () {},
           //   child: Icon(
@@ -388,7 +471,7 @@ class _BodyCallState extends State<BodyCall> {
           children: <Widget>[
             // _info(),
             _viewRows(),
-            _panel(),
+            // _panel(),
             _toolbar(),
           ],
         ),
@@ -423,7 +506,7 @@ class _BodyCallState extends State<BodyCall> {
                               //     finish.minute -
                               //     timebegin.hour -
                               //     timebegin.minute);
-                              timerStart(1);
+                              // timerStart(1);
                               Navigator.pop(context, 'Đồng ý');
                             },
                             child: const Text(
@@ -441,7 +524,7 @@ class _BodyCallState extends State<BodyCall> {
                             //       timebegin.hour -
                             //       timebegin.minute +
                             //       5);
-                            timerStart(1);
+                            // timerStart(1);
                             Navigator.pop(context, 'Gia hạn thêm 5 phút');
                           },
                           child: const Text(
@@ -455,10 +538,45 @@ class _BodyCallState extends State<BodyCall> {
             ));
   }
 
-  void timerStart(int minute) {
-    final timer = Timer(Duration(minutes: minute), () {
-      _engine.leaveChannel();
-      slotbookingcontroller.confirmVideocall(widget.id);
-    });
+  // void timerStart(int minute) {
+  //   final timer = Timer(Duration(minutes: minute), () {
+  //     _engine.leaveChannel();
+  //     slotbookingcontroller.confirmVideocall(widget.id);
+  //   });
+  // }
+}
+
+class ShowAvatar extends StatelessWidget {
+  const ShowAvatar({
+    Key? key,
+    required this.width,
+    required this.height,
+  }) : super(key: key);
+  final double width, height;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            padding: EdgeInsets.all(10.0),
+            width: width,
+            height: height,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.white70, width: 2),
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(
+                    'https://www.researchgate.net/publication/29608002/figure/fig1/AS:309880117317644@1450892585639/Class-and-instance-specifications.png'),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

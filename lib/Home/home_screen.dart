@@ -6,7 +6,6 @@ class HomeScreenConsultant extends StatefulWidget {
   const HomeScreenConsultant({Key? key}) : super(key: key);
 
   @override
-  // _HomeScreenScreenState createState() => _HomeScreenScreenState();
   _HomeScreenConsultantState createState() => _HomeScreenConsultantState();
 }
 
@@ -15,7 +14,7 @@ class _HomeScreenConsultantState extends State<HomeScreenConsultant> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Body(),
-      bottomNavigationBar: BottomBarPsycApp(selected: "home"),
+      // bottomNavigationBar: BottomBarPsycApp(selected: "home"),
     );
   }
 }

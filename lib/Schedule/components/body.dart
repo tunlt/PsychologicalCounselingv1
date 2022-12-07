@@ -19,12 +19,12 @@ class Body extends StatefulWidget {
 final slotBookingController = Get.find<SlotbookingController>();
 
 class _BodyState extends State<Body> {
-  TimeOfDay timeStart =
-      TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute);
   // String? timeConver;
   TimeOfDay? time;
   TextEditingController price = TextEditingController();
   TextEditingController timeStartController = TextEditingController();
+  TimeOfDay timeStart =
+      TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute);
   // void _selectTime() async {
   //   final TimeOfDay? timeStart = await showTimePicker(
   //     context: context,
@@ -68,13 +68,9 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Cuộc hẹn của bạn'),
-          backgroundColor: Colors.purple,
-        ),
         body: Column(children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 10),
+            padding: const EdgeInsets.only(bottom: 10, top: 20),
             child: Card(
               child: TableCalendar(
                 // locale: 'us',
@@ -149,93 +145,30 @@ class _BodyState extends State<Body> {
                                     child: Center(
                                       child: Builder(
                                         builder: (context) => TextButton.icon(
-                                            icon: Icon(Icons.alarm_sharp),
-                                            onPressed: () async {
-                                              time = await showTimePicker(
-                                                context: context,
-                                                initialTime: timeStart,
-                                                initialEntryMode:
-                                                    TimePickerEntryMode.input,
-                                              );
-                                              if (time == null) {
-                                                return;
-                                              }
-                                              setState(() {
-                                                timeStart = time!;
-                                              });
-                                            },
-                                            label: Text(
-                                                '${timeStart.hour.toString().padLeft(2, '0')}:${timeStart.minute.toString().padLeft(2, '0')}')),
+                                          icon: Icon(Icons.alarm_sharp),
+                                          onPressed: () async {
+                                            time = await showTimePicker(
+                                              context: context,
+                                              initialTime: timeStart,
+                                              initialEntryMode:
+                                                  TimePickerEntryMode.input,
+                                            );
+                                            if (time == null) {
+                                              return;
+                                            }
+                                            setState(() {
+                                              timeStart = time!;
+                                            });
+                                          },
+                                          label: Text(
+                                              '${timeStart.hour.toString().padLeft(2, '0')}:${timeStart.minute.toString().padLeft(2, '0')}'),
+                                          // label:
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  //                              Container(
-                                  //       padding: EdgeInsets.all(15),
-                                  //       height:150,
-                                  //       child:Center(
-                                  //          child:TextField(
-                                  //             controller: timeStartController, //editing controller of this TextField
-                                  //             decoration: InputDecoration(
-                                  //                icon: Icon(Icons.timer), //icon of text field
-                                  //                labelText: "Enter Time" //label text of field
-                                  //             ),
-                                  //             readOnly: true,  //set it true, so that user will not able to edit text
-                                  //             onTap: () async {
-                                  //               TimeOfDay? pickedTime =  await showTimePicker(
-                                  //                       initialTime: timeStart,
-                                  //                       context: context,
-                                  //                   );
-
-                                  //               if(pickedTime != null ){
-                                  //                   print(pickedTime.format(context));   //output 10:51 PM
-                                  //                   DateTime parsedTime = DateFormat.jm().parse(pickedTime.format(context).toString());
-                                  //                   //converting to DateTime so that we can further format on different pattern.
-                                  //                   print(parsedTime); //output 1970-01-01 22:53:00.000
-                                  //                   String formattedTime = DateFormat('HH:mm').format(parsedTime);
-                                  //                   print(formattedTime); //output 14:59:00
-                                  //                   //DateFormat() is from intl package, you can format the time on any pattern you need.
-
-                                  //                   setState(() {
-                                  //                     timeStartController.text = formattedTime; //set the value of text field.
-                                  //                   });
-                                  //               }else{
-                                  //                   print("Time is not selected");
-                                  //               }
-                                  //             },
-                                  //          )
-                                  //       )
-                                  //     )
-                                  // );
                                 ],
                               ),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.attach_money_rounded,
-                                    color: Colors.blue,
-                                  ),
-                                  Expanded(
-                                    child: TextField(
-                                      keyboardType: TextInputType.number,
-                                      controller: price,
-                                      decoration: InputDecoration(
-                                        hintText: "Nhập giá cua cho Slot",
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.start,
-                              //   mainAxisSize: MainAxisSize.max,
-                              //   children: [
-                              //     Container(
-                              //       child: TextField(
-                              //         controller: price,
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
                               Container(
                                 height: 60,
                                 width: 150,
@@ -248,8 +181,7 @@ class _BodyState extends State<Body> {
                                         //   print(timeConver);
                                         slotBookingController.addSlotBooking(
                                             format.format(_focusedDay),
-                                            '${timeStart.hour.toString().padLeft(2, '0')}:${timeStart.minute.toString().padLeft(2, '0')}',
-                                            price);
+                                            '${timeStart.hour.toString().padLeft(2, '0')}:${timeStart.minute.toString().padLeft(2, '0')}');
                                         Navigator.of(context).pop();
                                         // } else {
                                         //     Fluttertoast.showToast(
@@ -281,4 +213,14 @@ class _BodyState extends State<Body> {
           child: Icon(Icons.add),
         ));
   }
+
+  // Future<void> _openTimePicker(BuildContext) async {
+  //   final TimeOfDay? currentTime =
+  //       await showTimePicker(context: context, initialTime: TimeOfDay.now());
+  //   if (currentTime != null) {
+  //     setState(() {
+  //       timeStart = currentTime.format(context) as TimeOfDay;
+  //     });
+  //   }
+  // }
 }

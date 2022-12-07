@@ -25,7 +25,7 @@ class _ChangepassScreenState extends State<ChangepassScreen> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.purple,
+            backgroundColor: Color(0xff4f0080),
             bottom: TabBar(
               tabs: [
                 Tab(

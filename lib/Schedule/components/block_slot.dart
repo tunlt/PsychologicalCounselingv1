@@ -1,28 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:psychological_counseling/controller/slotlive.dart';
 import 'package:psychological_counseling/model/slotbooking.dart';
 
 // ignore: must_be_immutable
 class BlockSlot extends StatelessWidget {
   BlockSlot(this.slotBooking);
   final SlotBooking slotBooking;
+  final slotLiveController = Get.find<SlotLiveController>();
   String status = "active";
   @override
   Widget build(BuildContext context) {
     DateTime? timeStart = _convertStringToDateTime(slotBooking.timeStart!);
     DateTime? timeEnd = _convertStringToDateTime(slotBooking.timeEnd!);
+    var formatdate = DateFormat('yyyy-MM-dd');
     final format = new DateFormat("HH:mm");
     return GestureDetector(
+      onLongPress: () {
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 100,
+              color: Colors.blueGrey[100],
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        ElevatedButton(
+                            child: const Text('Xóa slot này'),
+                            onPressed: () {
+                              slotLiveController.CancelSlotLive(
+                                  false,
+                                  slotBooking.id!,
+                                  formatdate.format(slotBooking.dateSlot!));
+                              Navigator.pop(context);
+                            }),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.all(5.0),
         child: SizedBox(
-          height: 50,
-          width: 450,
+          height: 60,
+          width: 343,
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10),
             child: Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(16),
                 color: status == "active"
                     ? Colors.blueGrey[100]
                     : Colors.blueGrey[500],
@@ -70,7 +108,7 @@ class BlockSlot extends StatelessWidget {
                         TextSpan(
                           children: [
                             TextSpan(
-                              text: '${slotBooking.price}' + ' cua' + '   ',
+                              text: '${slotBooking.price}' + ' Gem' + '   ',
                               style: TextStyle(
                                   fontSize: 18, color: Colors.red[300]),
                             ),

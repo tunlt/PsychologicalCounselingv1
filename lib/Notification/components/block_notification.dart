@@ -54,7 +54,7 @@ class BlockNotification extends StatelessWidget {
         height: 80,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.pink[50],
+          color: Color.fromARGB(255, 241, 233, 250),
         ),
         child: Padding(
           padding: EdgeInsets.fromLTRB(5, 10, 10, 10),

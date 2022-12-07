@@ -88,8 +88,6 @@ class ConsultantController extends GetxController {
           update();
           if (check) {
             Get.to(EditProfileConsultantScreen());
-          } else {
-            Get.to(ProfileConsultantScreen());
           }
         }
       }

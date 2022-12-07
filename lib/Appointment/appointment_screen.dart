@@ -16,7 +16,7 @@ class _AppontmentScreenState extends State<AppointmentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Body(),
-      bottomNavigationBar: BottomBarPsycApp(selected: "appointment"),
+      // bottomNavigationBar: BottomBarPsycApp(selected: "appointment"),
     );
   }
 }

@@ -13,6 +13,7 @@ import 'package:psychological_counseling/Profile/profile_screen.dart';
 import 'package:psychological_counseling/Register/register_screen.dart';
 import 'package:psychological_counseling/Register/veriify_email.dart';
 import 'package:psychological_counseling/Schedule/schedule_screen.dart';
+import 'package:psychological_counseling/Withdrawal/historywithdrawal_screen.dart';
 import 'package:psychological_counseling/Withdrawal/withdrawal_screen.dart';
 import 'package:psychological_counseling/binding/binding.dart';
 import 'package:get/get.dart';
@@ -106,6 +107,10 @@ void main() async {
         GetPage(
             name: '/historydetail_screen',
             page: () => DetailHistoryScreen(),
+            binding: Binding()),
+        GetPage(
+            name: '/historywithdrawal_screen',
+            page: () => HistoryWithdrawalScreen(),
             binding: Binding()),
       ],
     ),

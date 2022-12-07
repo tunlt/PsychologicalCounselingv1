@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:psychological_counseling/controller/slot.dart';
 import 'package:psychological_counseling/model/appointment.dart';
@@ -23,16 +24,17 @@ class BlockHistory extends StatelessWidget {
         // onTap: () => _spaController.getSpaDetail(spa.id),
 
         Padding(
-      padding: EdgeInsets.fromLTRB(0, 0, 0, 12),
+      padding: const EdgeInsets.only(
+        left: 16,
+        right: 16,
+        top: 16,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.all(10),
-            height: 190,
-            width: 400,
+            height: 159,
+            width: 393,
             decoration: BoxDecoration(
                 border: historyAppointment.status == "cancel"
                     ? Border.all(color: Colors.red)
@@ -40,127 +42,133 @@ class BlockHistory extends StatelessWidget {
                 color: historyAppointment.status == "overdue"
                     ? Color.fromARGB(255, 243, 65, 11)
                     : Colors.deepPurple[50],
-                borderRadius: BorderRadius.circular(10)),
-            child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: 10, right: 10, top: 10, bottom: 5),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                borderRadius: BorderRadius.circular(24)),
+            child: Column(children: [
+              Padding(
+                padding: EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 219, 193, 224),
+                          borderRadius: BorderRadius.all(Radius.circular(28))),
+                      width: 130,
+                      height: 120,
+                      child: Image.network(
+                        '${historyAppointment.imageUrl}',
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 18,
+                    ),
+                    Column(
                       children: [
-                        // Container(
-                        //   width: size.width * 0.30,
-                        //   height: size.width * 0.35,
-                        //   decoration: BoxDecoration(
-                        //     color: Color.fromARGB(255, 219, 193, 224),
-                        //   ),
-                        //   child: Container(
-                        //     width: size.width * 0.30,
-                        //     height: size.width * 0.35,
-                        //     child: Image.network(
-                        //         '${historyAppointment.imageUrl}'),
-                        //   ),
-                        // ),
-                        // SizedBox(
-                        //   width: 8,
-                        // ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 219, 193, 224),
-                          ),
-                          width: size.width * 0.35,
-                          height: size.width * 0.35,
+                        Row(
+                          children: [
+                            Text(
+                              "${historyAppointment.customerName}",
+                              maxLines: 1,
+                              style: GoogleFonts.asap(
+                                  textStyle: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold)),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Thời gian: ",
+                              style: GoogleFonts.asap(
+                                  textStyle: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold)),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              "${format.format(timeStart!)}" +
+                                  " - " +
+                                  "${format.format(timeEnd!)}",
+                              style: GoogleFonts.asap(
+                                  textStyle: TextStyle(
+                                fontSize: 16,
+                              )),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Giá: ",
+                              style: GoogleFonts.asap(
+                                  textStyle: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold)),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              "${historyAppointment.price}",
+                              style: GoogleFonts.asap(
+                                  textStyle: TextStyle(fontSize: 16)),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              " Gem",
+                              style: GoogleFonts.asap(
+                                  textStyle: TextStyle(fontSize: 16)),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2),
                           child: Container(
-                            width: size.width * 0.35,
-                            height: size.width * 0.35,
-                            child:
-                                Image.network('${historyAppointment.imageUrl}'),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Container(
-                          width: size.width * 0.45,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${historyAppointment.customerName}",
+                            width: 122,
+                            height: 40,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                detailHistoryController.CustomerDetailHistory(
+                                    historyAppointment.id);
+                              },
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Colors.pink[400])),
+                              child: Text(
+                                "Chi Tiết",
                                 style: TextStyle(
+                                    color: Colors.white,
                                     fontWeight: FontWeight.bold,
-                                    fontStyle: FontStyle.italic),
-                                overflow: TextOverflow.ellipsis,
+                                    fontSize: 12),
                               ),
-                              SizedBox(
-                                height: 4,
-                              ),
-                              // Text(
-                              //   // "Address: " + service.spa.address,
-                              //   "Tên: " + "${hi}",
-                              //   overflow: TextOverflow.ellipsis,
-                              // ),
-                              Text(
-                                // "Address: " + service.spa.address,
-                                "Thời gian: " +
-                                    "${format.format(timeStart!)}" +
-                                    " - " +
-                                    "${format.format(timeEnd!)}",
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              SizedBox(
-                                height: 4,
-                              ),
-                              Text(
-                                // "Date: " + service.spa.address,
-                                "Giá: " +
-                                    "${historyAppointment.price}" +
-                                    " Gem",
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              SizedBox(
-                                height: 4,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 2),
-                                child: Container(
-                                  width: 120,
-                                  height: 22,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      detailHistoryController
-                                          .CustomerDetailHistory(
-                                              historyAppointment.id);
-                                    },
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all(
-                                                Color.fromARGB(
-                                                    255, 165, 8, 170))),
-                                    child: Text(
-                                      "Chi Tiết",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12),
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                              SizedBox(
-                                width: 10,
-                              ),
-                            ],
+                            ),
                           ),
-                        )
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
                       ],
                     ),
-                  ),
-                ]),
+                  ],
+                ),
+              ),
+            ]),
           ),
         ],
       ),

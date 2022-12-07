@@ -15,7 +15,6 @@ class _ProfileConsultantScreenState extends State<ProfileConsultantScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ProfileConsultant(),
-      bottomNavigationBar: BottomBarPsycApp(selected: "profile"),
     );
   }
 }

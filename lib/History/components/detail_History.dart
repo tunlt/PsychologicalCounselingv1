@@ -119,7 +119,6 @@ class _DetailHistoryState extends State<DetailHistory> {
             ),
           ),
         ),
-
         detailController.listhistoryDetail[0].status == "success"
             ? Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -211,7 +210,6 @@ class _DetailHistoryState extends State<DetailHistory> {
                   ),
                 ],
               ),
-
         detailController.listhistoryDetail[0].status == "success"
             ? detailController.listhistoryDetail[0].rate == 0
                 ? Column(
@@ -219,19 +217,17 @@ class _DetailHistoryState extends State<DetailHistory> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Flexible(
-                            child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 25),
-                                child: Text(
-                                    'Chưa có bình luận từ ${detailController.listhistoryDetail[0].customerName}',
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: 20,
-                                        color: Colors.brown))),
-                          ),
+                          Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 25),
+                              child: Text(
+                                  'Chưa có bình luận từ ${detailController.listhistoryDetail[0].customerName}',
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 20,
+                                      color: Colors.brown))),
                         ],
                       ),
                     ],
@@ -262,15 +258,12 @@ class _DetailHistoryState extends State<DetailHistory> {
                             EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                         child: Row(
                           children: [
-                            Flexible(
-                              child: Text(
-                                  'Bình luận: ${detailController.listhistoryDetail[0].feedback}',
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontStyle: FontStyle.italic,
-                                      fontSize: 15)),
-                            ),
+                            Text(
+                                'Bình luận: ${detailController.listhistoryDetail[0].feedback}',
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontStyle: FontStyle.italic, fontSize: 15)),
                           ],
                         ),
                       ),
@@ -285,27 +278,23 @@ class _DetailHistoryState extends State<DetailHistory> {
                         child: detailController
                                     .listhistoryDetail[0].reasonConsultant ==
                                 null
-                            ? Flexible(
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      '${detailController.listhistoryDetail[0].reasonCustomer}',
-                                      maxLines: 3,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
-                                ),
+                            ? Row(
+                                children: [
+                                  Text(
+                                    '${detailController.listhistoryDetail[0].reasonCustomer}',
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
                               )
-                            : Flexible(
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      '${detailController.listhistoryDetail[0].reasonConsultant}',
-                                      maxLines: 3,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
-                                ),
+                            : Row(
+                                children: [
+                                  Text(
+                                    '${detailController.listhistoryDetail[0].reasonConsultant}',
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
                               ),
                       ),
                     ],
@@ -323,81 +312,6 @@ class _DetailHistoryState extends State<DetailHistory> {
                       ),
                     ],
                   ),
-        // : Row(
-        //     children: [
-        //       Flexible(
-        //         child: Padding(
-        //           padding:
-        //               EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-        //           child: detailController.listhistoryDetail[0].rate == '0'
-        //               ? Text(
-        //                   'Chưa có bình luận từ ${detailController.listhistoryDetail[0].customerName}',
-        //                   maxLines: 1,
-        //                   overflow: TextOverflow.ellipsis,
-        //                   style: TextStyle(
-        //                       fontStyle: FontStyle.normal, fontSize: 20))
-        //               : Text(
-        //                   '${detailController.listhistoryDetail[0].feedback}',
-        //                   maxLines: 3,
-        //                   overflow: TextOverflow.ellipsis,
-        //                   style: TextStyle(fontStyle: FontStyle.italic)),
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // Padding(
-        //   padding: EdgeInsets.symmetric(),
-        //   child: TextButton(
-        //     style: TextButton.styleFrom(
-        //       primary: Color.fromARGB(255, 20, 20, 20),
-        //       padding: EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 20),
-        //       shape: RoundedRectangleBorder(
-        //           borderRadius: BorderRadius.circular(15)),
-        //       backgroundColor: Color(0xFFF5F6F9),
-        //     ),
-        //     onPressed: () {
-        //       showDialog(
-        //           context: context,
-        //           builder: (BuildContext context) => AlertDialog(
-        //                 title: const Text('Kết quả khảo sát'),
-        //                 content: Text(
-        //                   '${detailController.listbookingDetail[0].resultSurvey}',
-        //                 ),
-        //                 actions: <Widget>[
-        //                   Row(
-        //                     mainAxisAlignment: MainAxisAlignment.center,
-        //                     children: [
-        //                       Padding(
-        //                         padding: const EdgeInsets.only(right: 3),
-        //                         child: ElevatedButton(
-        //                             style: ElevatedButton.styleFrom(
-        //                                 backgroundColor: Colors.purple),
-        //                             onPressed: () {
-        //                               Navigator.pop(context, 'Quay lại');
-        //                             },
-        //                             child: const Text('Quay lại')),
-        //                       ),
-        //                     ],
-        //                   ),
-        //                 ],
-        //               ));
-        //     },
-        //     child: Row(
-        //       children: [
-        //         Flexible(
-        //           child: Padding(
-        //             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-        //             child: Text(
-        //                 '${detailController.listbookingDetail[0].resultSurvey}',
-        //                 maxLines: 3,
-        //                 overflow: TextOverflow.ellipsis,
-        //                 style: TextStyle(fontStyle: FontStyle.italic)),
-        //           ),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        // ),
       ])),
     );
   }

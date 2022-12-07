@@ -59,7 +59,9 @@ class _EditProfileConsultantState extends State<EditProfileConsultant> {
         _imageFile = File(pickedFile.path);
         _consultant.loadImageConsultant(_imageFile!);
         urlImage = _consultant.urlImage;
-        Navigator.of(context).pop();
+        if (urlImage != null) {
+          Navigator.of(context).pop();
+        }
       });
     }
   }
@@ -84,13 +86,8 @@ class _EditProfileConsultantState extends State<EditProfileConsultant> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Get.to(ProfileConsultantScreen());
-            }),
         title: Text("Thông tin của tôi"),
-        backgroundColor: Colors.purple[200],
+        backgroundColor: Color(0xff4f0080),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -202,19 +199,22 @@ class _EditProfileConsultantState extends State<EditProfileConsultant> {
             SizedBox(height: 13),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 3),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.email,
-                    color: Colors.purple,
-                  ),
-                  SizedBox(width: 12),
-                  Expanded(
-                      child: TextField(
-                    controller: _email,
-                    readOnly: true,
-                  )),
-                ],
+              child: Tooltip(
+                message: 'Không thể thay đổi email',
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.email,
+                      color: Colors.purple,
+                    ),
+                    SizedBox(width: 12),
+                    Expanded(
+                        child: TextField(
+                      controller: _email,
+                      readOnly: true,
+                    )),
+                  ],
+                ),
               ),
             ),
             SizedBox(height: 13),
@@ -366,8 +366,10 @@ class _EditProfileConsultantState extends State<EditProfileConsultant> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
               child: Container(
+                height: 40,
+                width: 122,
                 child: Center(
                   child: ElevatedButton.icon(
                     icon: Icon(
@@ -375,10 +377,11 @@ class _EditProfileConsultantState extends State<EditProfileConsultant> {
                       color: Colors.white,
                     ),
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.purple),
+                      backgroundColor:
+                          MaterialStateProperty.all(Color(0xff4f0080)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
+                          borderRadius: BorderRadius.circular(8),
                           side: BorderSide(
                             color: Colors.white,
                             width: 0.2,
@@ -389,6 +392,7 @@ class _EditProfileConsultantState extends State<EditProfileConsultant> {
                     label: Text('Lưu'),
                     onPressed: () {
                       print(urlImage);
+                      urlImage = _consultant.urlImage!;
                       _consultant.UpdateConsultant(_fullname, _address, _email,
                           gender, urlImage, inputFormat.format(dob), _phone);
                       print(urlImage);

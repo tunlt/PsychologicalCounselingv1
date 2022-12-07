@@ -38,70 +38,61 @@ class _Body extends State<Body> {
     // Service service=list.allService[0];
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Lịch sử cuộc hẹn"),
-          backgroundColor: Colors.purple,
-        ),
         body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Card(
-                child: TableCalendar(
-                  focusedDay: DateTime.now(),
-                  firstDay: DateTime.now().subtract(Duration(days: 30)),
-                  // firstDay: DateTime.now().subtract(Duration(days: 7)),
-                  lastDay: DateTime.now(),
-                  selectedDayPredicate: (day) {
-                    return isSameDay(_selectedDay, day);
-                  },
-                  daysOfWeekStyle: DaysOfWeekStyle(
-                    weekendStyle: TextStyle(color: Colors.red),
-                  ),
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10, top: 20),
+          child: Card(
+            child: TableCalendar(
+              focusedDay: DateTime.now(),
+              firstDay: DateTime.now().subtract(Duration(days: 30)),
+              // firstDay: DateTime.now().subtract(Duration(days: 7)),
+              lastDay: DateTime.now(),
+              selectedDayPredicate: (day) {
+                return isSameDay(_selectedDay, day);
+              },
+              daysOfWeekStyle: DaysOfWeekStyle(
+                weekendStyle: TextStyle(color: Colors.red),
+              ),
 
-                  onDaySelected: (selectedDay, focusedDay) {
-                    setState(() {
-                      _selectedDay = selectedDay;
-                      _focusedDay =
-                          focusedDay; // update `_focusedDay` here as well
-                      print(_focusedDay);
-                      appointmentController.getListHistoryAppointment(
-                          format.format(_focusedDay));
-                    });
-                  },
-                  calendarFormat: _calendarFormat,
-                  onFormatChanged: (format) {
-                    setState(() {
-                      _calendarFormat = format;
-                    });
-                  },
-                  onPageChanged: (focusedDay) {
-                    focusedDay = _focusedDay;
-                  },
-                ),
-              ),
+              onDaySelected: (selectedDay, focusedDay) {
+                setState(() {
+                  _selectedDay = selectedDay;
+                  _focusedDay = focusedDay; // update `_focusedDay` here as well
+                  print(_focusedDay);
+                  appointmentController
+                      .getListHistoryAppointment(format.format(_focusedDay));
+                });
+              },
+              calendarFormat: _calendarFormat,
+              onFormatChanged: (format) {
+                setState(() {
+                  _calendarFormat = format;
+                });
+              },
+              onPageChanged: (focusedDay) {
+                focusedDay = _focusedDay;
+              },
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: GetBuilder<AppointmentController>(
-                  builder: (controller) => (controller.isLoading.isTrue)
-                      ? const Center(child: CircularProgressIndicator())
-                      : controller.listHistoryAppointment.isEmpty
-                          ? const Center(
-                              child: Text('Bạn chưa có lịch cho ngày này !'))
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.vertical,
-                              itemBuilder: (ctx, i) => BlockHistory(
-                                  controller.listHistoryAppointment[i]),
-                              itemCount:
-                                  controller.listHistoryAppointment.length,
-                            ),
-                ),
-              ),
-            )
-          ],
-        ));
+          ),
+        ),
+        Expanded(
+          child: GetBuilder<AppointmentController>(
+            builder: (controller) => (controller.isLoading.isTrue)
+                ? const Center(child: CircularProgressIndicator())
+                : controller.listHistoryAppointment.isEmpty
+                    ? const Center(
+                        child: Text('Bạn chưa có lịch cho ngày này !'))
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (ctx, i) =>
+                            BlockHistory(controller.listHistoryAppointment[i]),
+                        itemCount: controller.listHistoryAppointment.length,
+                      ),
+          ),
+        )
+      ],
+    ));
   }
 }

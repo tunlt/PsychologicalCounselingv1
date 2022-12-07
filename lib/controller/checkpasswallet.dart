@@ -9,12 +9,14 @@ import 'package:psychological_counseling/model/consultant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CheckpassWalletController extends GetxController {
+  var isLoading = true.obs;
   var checkpass = false.obs;
   // ignore: non_constant_identifier_names
   Future<void> Checkpass() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var id = prefs.getInt('id');
     try {
+      isLoading(true);
       final response = await http.get(
           Uri.parse(
               "https://psycteamv2.azurewebsites.net/api/Consultants/checkpasswalletbyid?id=${id}"),
@@ -35,7 +37,10 @@ class CheckpassWalletController extends GetxController {
       }
     } catch (error) {
       print(error);
+    } finally {
+      isLoading(false);
     }
+    ;
   }
 
   Future<void> CreatePassWallet(
@@ -63,7 +68,6 @@ class CheckpassWalletController extends GetxController {
             backgroundColor: Color.fromARGB(255, 43, 204, 22),
             textColor: Colors.black,
             fontSize: 16.0);
-        Get.to(WithdrawalScreen());
       } else {
         Fluttertoast.showToast(
             msg: "tạo mật khẩu thất bại",
